@@ -16,17 +16,17 @@
 	text-align: center;
 }
 
-#greeting-container {
+#footer {
+	width: 100vw;
+	height: 10vh;
+	text-align: center;
+}
+
+#fact-container {
   margin-top: 20px;
 }
 
 #profile-image {
 	width: 80%;
 	min-width: 400px
-}
-
-#footer {
-	width: 100vw;
-	height: 10vh;
-	text-align: center;
 }
