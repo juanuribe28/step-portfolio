@@ -1,9 +1,14 @@
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
+  width: 40vw;
+	text-align: center;
 }
 
 #greeting-container {
   margin-top: 20px;
+}
+
+#profile-image {
+	width: 80%;
 }
