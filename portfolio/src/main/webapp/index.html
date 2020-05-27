@@ -7,9 +7,9 @@
     <script src="script.js"></script>
   </head>
   <body>
-		<div id="header" class="center">
-			<h1>Juan Uribe</h1>
-		</div>
+    <div id="header" class="center">
+	  <h1>Juan Uribe</h1>
+	</div>
     <div id="content">
       <p>This is my portfolio</p>
       <img src="/images/profileImage.JPG" alt="Profile image of Juan Uribe" id="profile-image">
@@ -17,10 +17,30 @@
       <p>I was born in Bogota, Colombia, where I grew up and went to school. It wasn't until 2019 that I moved to LA, to start my college life at Loyola Marymount University.</p>
       <p>Click here to get a random fact about myself:</p>
       <button onclick="addRandomFact()">Fact Generator</button>
-      <div id="fact-container"></div>
+      <div id="fact-container" class="center"></div>
+	  <div id="menu">
+	    <a href="education.html" class="menu-option">
+          <div id="education" class="center">
+	        <p class="menu-label">Education</p>
+		    <img src="/images/books.jpg" alt="Books" class="menu-image">
+	      </div>
+	    </a>
+        <a href="hobbies.html" class="menu-option">
+          <div id="hobbies" class="center">
+		    <p class="menu-label">Hobbies</p>
+		    <img src="/images/circuits.jpg" alt="Cirrcuit board" class="menu-image">
+		  </div>
+        </a>
+        <a href="projects.html" class="menu-option">
+		  <div id="projects" class="center">
+		    <p class="menu-label">Projects</p>
+		    <img src="/images/nature.jpg" alt="Beach" class="menu-image">
+		  </div>
+        </a>
+	  </div>
     </div>
-		<div id="footer" class="center">
-			<p>Created and developed by Juan Uribe - 2020</p>
-		</div>
+	<div id="footer" class="center">
+	  <p>Created and developed by Juan Uribe - 2020</p>
+	</div>
   </body>
 </html>
