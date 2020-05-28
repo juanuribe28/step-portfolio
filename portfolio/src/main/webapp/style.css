@@ -59,6 +59,7 @@ footer {
   width: 18vw;
   height: 13.5vw;
   margin: 2vh 1vw;
+  cursor: pointer;
 }
 .menu-option:hover .overlay{
   opacity: 1;
@@ -109,4 +110,14 @@ footer {
 
 #rh-section {
   display:flex;
+}
+
+button {
+  background-color: midnightblue;
+  text-align: center;
+  padding: 2vh 1vw;
+  margin: 2vh 1vw;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
