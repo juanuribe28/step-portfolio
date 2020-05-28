@@ -1,9 +1,56 @@
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header{
+  width: 100vw;
+  height: 15vh;
+}
+
+#contact {
+  padding: 0 10vw 0 0;
+  text-align: right;
+}
+
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
+  width: 60vw;
+  text-align: center;
 }
 
-#greeting-container {
+footer {
+  width: 100vw;
+  height: 10vh;
+  text-align: center;
+}
+
+#menu {
+  display: flex;
+}
+
+.menu-option {
+  flex: 1 1 auto;
+  position: relative;
+  text-align: center;
+}
+
+.menu-image {
+  width: 18vw;
+  height: 13.5vw;
+}
+
+.menu-label {
+  position: absolute;	
+}
+
+#fact-container {
   margin-top: 20px;
+}
+
+#profile-image {
+  width: 50%;
+  min-width: 400px;
 }
