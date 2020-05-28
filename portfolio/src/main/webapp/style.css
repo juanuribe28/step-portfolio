@@ -54,3 +54,18 @@ footer {
   width: 50%;
   min-width: 400px;
 }
+
+.content-img {
+  max-width:50%;
+  max-height:20vh;
+  margin:5px;
+}
+
+#images {
+  display:flex;
+  flex: wrap;
+}
+
+#rh-section {
+  display:flex;
+}
