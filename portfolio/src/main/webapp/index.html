@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="randomizer.js"></script>
+    <script src="toggle.js"></script>
   </head>
   <body>
     <header>
@@ -20,24 +22,20 @@
       <button onclick="addRandomFact()">Fact Generator</button>
       <div id="fact-container" class="center"></div>
       <div id="menu">
-        <a href="education.html" class="menu-option">
-          <div id="education" class="center">
-            <p class="menu-label">Education</p>
-            <img src="/images/books.jpg" alt="Books" class="menu-image">
-          </div>
-        </a>
-        <a href="hobbies.html" class="menu-option">
-          <div id="hobbies" class="center">
-            <p class="menu-label">Hobbies</p>
-            <img src="/images/nature.jpg" alt="Beach" class="menu-image">
-          </div>
-        </a>
-        <a href="projects.html" class="menu-option">
-          <div id="projects" class="center">
-            <p class="menu-label">Projects</p>
-            <img src="/images/circuits.jpg" alt="Circuit board" class="menu-image">
-          </div>
-        </a>
+        <div id="education" class="center menu-option" onclick="toggleSection('education')">
+          <p class="menu-label">Education</p>
+          <img src="/images/books.jpg" alt="Books" class="menu-image">
+        </div>
+        <div id="hobbies" class="center menu-option" onclick="toggleSection('hobbies')">
+          <p class="menu-label">Hobbies</p>
+          <img src="/images/nature.jpg" alt="Beach" class="menu-image">
+        </div>
+        <div id="projects" class="center menu-option" onclick="toggleSection('projects')">
+          <p class="menu-label">Projects</p>
+          <img src="/images/circuits.jpg" alt="Circuit board" class="menu-image">
+        </div>
+      </div>
+      <div id="option-result">
       </div>
     </div>
     <footer class="center">
