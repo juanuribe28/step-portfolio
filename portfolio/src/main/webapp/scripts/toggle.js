@@ -1,14 +1,14 @@
-let isShowing = false;
+let isShowingSection = false;
 let activeSection = null;
 
 /**
  * Decides wether to load or hide the section.
  */
 function toggleSection(section){
-  if(isShowing) (isShowing =  hideSection());
+  if(isShowingSection) (hideSection());
   if(activeSection === section) (activeSection = null);
   else{
-    isShowing = loadSection(section);
+    loadSection(section);
     activeSection = section;
   }
 };
@@ -17,8 +17,9 @@ function toggleSection(section){
  * Loads the specified section.
  */
 function loadSection(section){
-  $("#option-result").load(`${section}.html`); 
-  return true;
+  $("#option-result").load(`${section}.html`);
+  isShowingSection = true; 
+  return;
 };
 
 /**
@@ -26,5 +27,6 @@ function loadSection(section){
  */
 function hideSection(){
   $("#option-result").empty();
-  return false;
+  isShowingSection = false;
+  return;
 };
