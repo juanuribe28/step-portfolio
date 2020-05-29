@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Adds a random fact to the page.
  */
 function addRandomFact() {
   const facts =
