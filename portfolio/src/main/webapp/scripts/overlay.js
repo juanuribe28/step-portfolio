@@ -1,9 +1,3 @@
-// const options = document.querySelectorAll(".menu-option");
-
-for(let i=0; i<options.length; i++){
-  options[i].addEventListener('click', function(){toggleOverlay(options[i].id)})
-};
-
 let isShowingOverlay = false;
 let activeOverlay = null;
 
