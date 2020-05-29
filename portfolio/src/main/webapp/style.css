@@ -26,11 +26,24 @@ header{
   height: 15vh;
   background-color: midnightblue;
   color: white;
+  margin: 0 0 5vh 0;
+  position: relative;
+}
+
+#title {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 #contact {
-  padding: 0 10vw 0 0;
+  padding: 0;
+  margin: 0;
+  bottom: 2vh;
+  right: 10vw;
   text-align: right;
+  position: absolute;
 }
 
 #content {
@@ -46,6 +59,7 @@ footer {
   text-align: center;
   background-color: midnightblue;
   color: white;
+  margin: 10vh 0 0 0;
 }
 
 #menu {
@@ -97,16 +111,20 @@ footer {
   min-width: 400px;
 }
 
-.content-img {
-  max-width:50%;
-  max-height:50vh;
-  margin:5px;
-}
 
 #images {
   display:flex;
-  flex: wrap;
+  flex-wrap: wrap;
+  justify-content: center;
+  object-fit: cover;
 }
+
+.content-img {
+  max-width: 32%;
+  max-height: 50vh;
+  margin: 5px;
+}
+
 
 #rh-section {
   display:flex;
