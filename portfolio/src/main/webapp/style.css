@@ -102,40 +102,81 @@ footer {
   font-weight: bold;
 }
 
-#fact-container {
-  margin-top: 20px;
-}
-
-#profile-image {
-  width: 50%;
-  min-width: 400px;
-}
-
-
-#images {
-  display:flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  object-fit: cover;
-}
-
-.content-img {
-  max-width: 32%;
-  max-height: 50vh;
-  margin: 5px;
-}
-
-
-#rh-section {
-  display:flex;
-}
 
 button {
   background-color: midnightblue;
   text-align: center;
   padding: 2vh 1vw;
-  margin: 2vh 1vw;
+  margin: 5vh 0 1vh 0;
   border: none;
   color: white;
   cursor: pointer;
+}
+
+#fact-container {
+  padding: 2vh 0 7vh 0;
+}
+
+
+#profile-image {
+  width: 50%;
+  min-width: 20vw;
+}
+
+#option-result {
+  margin: 5vh 0;
+}
+
+.education {
+  padding: 1vh 0;
+}
+
+.logo-img {
+  max-width: 40%;
+}
+
+#images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  object-fit: cover;
+}
+
+.img-div {
+  max-width: 32%;
+  max-height: 50vh;
+  margin: 2vh 1vw;
+}
+
+.content-img {
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+}
+
+hr {
+  margin: 4vh 0;
+  background-color: midnightblue;
+  border: 0;
+  height: 0.25vh;
+}
+
+#robotic-hand {
+  display:flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+#robotic-hand-img {
+  flex: 1 1 auto;
+  margin: auto 2vw;
+}
+#robotic-hand-img > img {
+  width: 100%;
+}
+
+#robotic-hand-text {
+  flex: 3 1 auto;
+  text-align: left;
+  margin: auto 2vw;
 }
