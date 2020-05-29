@@ -128,9 +128,12 @@ button {
 }
 
 .education {
-  padding: 3vh 0;
+  padding: 1vh 0;
 }
 
+.logo-img {
+  max-width: 40%;
+}
 
 #images {
   display: flex;
