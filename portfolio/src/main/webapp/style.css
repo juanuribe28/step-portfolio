@@ -103,14 +103,13 @@ footer {
 }
 
 #fact-container {
-  margin-top: 20px;
+  padding: 2vh 0 7vh 0;
 }
 
 #profile-image {
   width: 50%;
-  min-width: 400px;
+  min-width: 20vw;
 }
-
 
 #images {
   display:flex;
@@ -125,7 +124,6 @@ footer {
   margin: 5px;
 }
 
-
 #rh-section {
   display:flex;
 }
@@ -134,8 +132,12 @@ button {
   background-color: midnightblue;
   text-align: center;
   padding: 2vh 1vw;
-  margin: 2vh 1vw;
+  margin: 5vh 0 1vh 0;
   border: none;
   color: white;
   cursor: pointer;
+}
+
+.education {
+  padding: 5vh 0;
 }
