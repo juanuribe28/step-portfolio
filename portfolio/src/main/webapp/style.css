@@ -1,3 +1,20 @@
+body {
+  color: midnightblue;
+  margin: 0;
+  padding: 0;
+  font-family: 'Oswald', sans-serif;
+}
+
+a:link {
+  color: goldenrod;
+}
+a:hover {
+  color: gold;
+}
+a:visited {
+  color: darkgoldenrod;
+}
+
 .center {
   display: flex;
   align-items: center;
@@ -7,11 +24,26 @@
 header{
   width: 100vw;
   height: 15vh;
+  background-color: midnightblue;
+  color: white;
+  margin: 0 0 5vh 0;
+  position: relative;
+}
+
+#title {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 #contact {
-  padding: 0 10vw 0 0;
+  padding: 0;
+  margin: 0;
+  bottom: 2vh;
+  right: 10vw;
   text-align: right;
+  position: absolute;
 }
 
 #content {
@@ -25,6 +57,9 @@ footer {
   width: 100vw;
   height: 10vh;
   text-align: center;
+  background-color: midnightblue;
+  color: white;
+  margin: 10vh 0 0 0;
 }
 
 #menu {
@@ -35,15 +70,36 @@ footer {
   flex: 1 1 auto;
   position: relative;
   text-align: center;
+  width: 18vw;
+  height: 13.5vw;
+  margin: 2vh 1vw;
+  cursor: pointer;
+}
+.menu-option:hover .overlay{
+  opacity: 1;
 }
 
 .menu-image {
-  width: 18vw;
-  height: 13.5vw;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+}
+
+.overlay {
+  transition: .5s ease;
+  color: white;
+  position: absolute;
+  opacity: 0;
+  background-color: midnightblue;
+  width: 100%;
+  height: 100%;
 }
 
 .menu-label {
-  position: absolute;	
+  position: absolute;
+  font-size: 200%;
+  font-weight: bold;
 }
 
 #fact-container {
@@ -53,4 +109,33 @@ footer {
 #profile-image {
   width: 50%;
   min-width: 400px;
+}
+
+
+#images {
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  object-fit: cover;
+}
+
+.content-img {
+  max-width: 32%;
+  max-height: 50vh;
+  margin: 5px;
+}
+
+
+#rh-section {
+  display:flex;
+}
+
+button {
+  background-color: midnightblue;
+  text-align: center;
+  padding: 2vh 1vw;
+  margin: 2vh 1vw;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
