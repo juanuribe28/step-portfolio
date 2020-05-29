@@ -5,7 +5,7 @@ let activeOverlay = null;
  * Decides wether to show or hide the overlay.
  */
 function toggleOverlay(section){
-  if(isShowingOverlay) (isShowingOverlay =  hideOverlay(section));
+  if(isShowingOverlay) (isShowingOverlay =  hideOverlay(activeOverlay));
   if(activeOverlay === section) (activeOverlay = null);
   else{
     isShowingOverlay = showOverlay(section);
