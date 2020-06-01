@@ -1,5 +1,14 @@
 $("document").ready(function() {
-  fetch('/data').then(promiseResponse => promiseResponse.text()).then((comment) => {
-    $('#content').html(comment);
+  fetch('/content/comment.html')
+  .then(promiseResponse => promiseResponse.text())
+  .then((template) => {
+    const htmlTemplate = template;
+
+    fetch('/data')
+    .then(promiseResponse => promiseResponse.json())
+    .then((commentJson) => {
+      let commentHtml = Mustache.render(htmlTemplate, commentJson);
+      $('#comments').prepend(commentHtml);
+    })
   })
 })
