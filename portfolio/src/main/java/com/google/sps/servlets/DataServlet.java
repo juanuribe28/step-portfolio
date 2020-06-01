@@ -28,15 +28,7 @@ import com.google.gson.Gson;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> commentList;
-
-  @Override
-  public void init() {
-    commentList = new ArrayList<String>();
-    commentList.add("I love it");
-    commentList.add("Juan Uribe");
-    commentList.add("It is a great portfolio, that ahaffblasa;lfjafs.s..");
-  }
+  private ArrayList<String> commentList = new ArrayList<String>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
