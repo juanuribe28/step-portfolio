@@ -20,7 +20,7 @@ function toggleSection(section) {
  * Loads the specified section.
  */
 function loadSection(section) {
-  $("#option-result").load(`${section}.html`);
+  $("#option-result").load(`/content/${section}.html`);
   isShowingSection = true; 
   return;
 }
