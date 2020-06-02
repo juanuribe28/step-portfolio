@@ -6,9 +6,11 @@ $("document").ready(function() {
 
     fetch('/data')
     .then(promiseResponse => promiseResponse.json())
-    .then((commentJson) => {
-      let commentHtml = Mustache.render(htmlTemplate, commentJson);
-      $('#comments').prepend(commentHtml);
+    .then((commentsObj) => {
+      for(let i = 0; i < commentsObj.length; i++) {
+        let commentHtml = Mustache.render(htmlTemplate, commentsObj[i]);
+        $('#comments').prepend(commentHtml);
+      }
     })
   })
 })
