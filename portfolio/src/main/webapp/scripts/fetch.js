@@ -6,7 +6,7 @@ $("document").ready(function() {
 
     fetch('/data')
     .then(promiseResponse => promiseResponse.json())
-    .then((commentOsbj) => {
+    .then((commentObjs) => {
       renderList(htmlTemplate, commentObjs, '#comments');
     })
   })
@@ -17,7 +17,7 @@ $("document").ready(function() {
  */
 function renderList(template, listObjs, parentId) {
   for(let i = 0; i < listObjs.length; i++) {
-    let html = Mustache.render(htmlTemplate, listObjs[i]);
+    let html = Mustache.render(template, listObjs[i]);
     $(parentId).prepend(html);
   }
 }
