@@ -42,8 +42,11 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String title = request.getParameter("main");
+    String name = request.getParameter("name");
     Date currentTime = new Date();
-    comment = new Comment(request.getParameter("main"), request.getParameter("name"), currentTime, request.getParameter("field"));
+    String field = request.getParameter("field");
+    comment = new Comment(title, name, currentTime, field);
     commentList.add(comment);
     response.sendRedirect("/contact.html");
   }
