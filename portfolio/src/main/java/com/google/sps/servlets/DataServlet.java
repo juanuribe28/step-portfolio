@@ -14,6 +14,8 @@
 
 package com.google.sps.servlets;
 
+import com.google.sps.data.Comment;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,23 +30,24 @@ import com.google.gson.Gson;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> commentList = new ArrayList<String>();
+  // TO DO: Multiple comments
+  // private ArrayList<Comment> commentList = new ArrayList<Comment>();
+
+  private Comment comment;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println(convertToJson(commentList));
+    response.setContentType("application/json");
+    String json = new Gson().toJson(comment);
+    response.getWriter().println(json);
   }
 
-
-  /**
-   * Converts an ArrayList instance into a JSON string using the Gson library.
-   */
-  public String convertToJson(ArrayList List) {
-    String json = "{\"title\" : \"I love it\", \"name\" : \"Juan Uribe\", \"comment\" : \"It is a great portfolio\"}";
-    // Gson gson = new Gson();
-    // String json = gson.toJson(List);
-    return json;
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Date currentTime = new Date();
+    comment = new Comment(request.getParameter("main"), request.getParameter("name"), currentTime, request.getParameter("field"));
+    // commentList.add(comment);
+    response.sendRedirect("/contact.html");
   }
 
 }
