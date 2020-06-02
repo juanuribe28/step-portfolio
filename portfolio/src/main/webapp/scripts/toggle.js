@@ -8,6 +8,7 @@ function toggleSection(section) {
   if (isShowingSection) {
     hideSection();
   }
+  
   if (activeSection === section) {
     activeSection = null;
   } else {
