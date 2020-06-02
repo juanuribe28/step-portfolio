@@ -7,7 +7,7 @@ public final class Comment {
 
   private final String title;
   private final String author;
-  private final Date date;
+  private final Date timeStamp;
   private final String comment;
   private final long id;
 
