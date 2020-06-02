@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -39,13 +40,15 @@ public class ListCommentsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timeStamp", SortDirection.ASCENDING);
+    Query query = new Query("Comment").addSort("timeStamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    List<Entity> topResults = results.asList(FetchOptions.Builder.withLimit(5));
+
     ArrayList<Comment> commentList = new ArrayList<Comment>();
-    for (Entity entity : results.asIterable()) {
+    for (Entity entity : topResults) {
       String title = (String) entity.getProperty("title");
       String author = (String) entity.getProperty("author");
       Date timeStamp = (Date) entity.getProperty("timeStamp");
