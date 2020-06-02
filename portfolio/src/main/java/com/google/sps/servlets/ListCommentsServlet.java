@@ -16,6 +16,10 @@ package com.google.sps.servlets;
 
 import com.google.sps.data.Comment;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,25 +31,31 @@ import java.util.*;
 import com.google.gson.Gson;
 
 /** Servlet that returns some example content.*/
-@WebServlet("/data")
+@WebServlet("/list-comments")
 public class DataServlet extends HttpServlet {
-
-  private ArrayList<Comment> commentList = new ArrayList<Comment>();
-  private Comment comment;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json");
-    String json = new Gson().toJson(commentList);
-    response.getWriter().println(json);
-  }
+    Query query = new Query("Comment").addSort("timeStamp", SortDirection.DESCENDING);
 
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Date currentTime = new Date();
-    comment = new Comment(request.getParameter("main"), request.getParameter("name"), currentTime, request.getParameter("field"));
-    commentList.add(comment);
-    response.sendRedirect("/contact.html");
-  }
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
 
+    ArrayList<Comment> commentList = new ArrayList<Comment>();
+    for (Entity entity : results.asIterable()) {
+      String title = (String) entity.getProperty("title");
+      String author = (String) entity.getProperty("author");
+      Date timeStamp = (Date) entity.getProperty("timeStamp");
+      String comment = (String) entity.getProperty("comment");
+      long id = entity.getKey().getId();
+
+      Comment commentObj = new Comment(title, author, timeStamp, comment, id);
+      commentList.add(commentObj);
+    }
+
+    Gson gson = new Gson();
+
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(commentList));
+  }
 }
