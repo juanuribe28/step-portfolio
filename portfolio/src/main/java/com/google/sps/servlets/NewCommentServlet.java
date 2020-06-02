@@ -16,6 +16,10 @@ package com.google.sps.servlets;
 
 import com.google.sps.data.Comment;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,28 +30,26 @@ import java.util.*;
 
 import com.google.gson.Gson;
 
-/** Servlet that returns some example content.*/
-@WebServlet("/data")
-public class DataServlet extends HttpServlet {
-
-  private ArrayList<Comment> commentList = new ArrayList<Comment>();
-  private Comment comment;
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json");
-    String json = new Gson().toJson(commentList);
-    response.getWriter().println(json);
-  }
+/** Servlet responisble for creating new comments.*/
+@WebServlet("/new-comment")
+public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String title = request.getParameter("main");
-    String name = request.getParameter("name");
+    String author = request.getParameter("name");
     Date currentTime = new Date();
-    String field = request.getParameter("field");
-    comment = new Comment(title, name, currentTime, field);
-    commentList.add(comment);
+    String comment = request.getParameter("field");
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("title", title);
+    commentEntity.setProperty("author", author);
+    commentEntity.setProperty("timestamp", currentTime);
+    commentEntity.setProperty("comment", comment);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+
     response.sendRedirect("/contact.html");
   }
 

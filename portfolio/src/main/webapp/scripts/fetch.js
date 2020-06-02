@@ -4,7 +4,7 @@ $("document").ready(function() {
   .then((template) => {
     const htmlTemplate = template;
 
-    fetch('/data')
+    fetch('/list-comments')
     .then(promiseResponse => promiseResponse.json())
     .then((commentObjs) => {
       renderList(htmlTemplate, commentObjs, '#comments');
