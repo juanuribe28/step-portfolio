@@ -9,12 +9,14 @@ public final class Comment {
   private final String author;
   private final Date date;
   private final String comment;
+  private final long id;
 
-  public Comment(String title, String author, Date date, String comment) {
+  public Comment(String title, String author, Date timeStamp, String comment, long id) {
     this.title = title;
     this.author = author;
-    this.date = date;
+    this.timeStamp = timeStamp;
     this.comment = comment;
+    this.id = id;
   }
 
   public String getTitle() {
@@ -25,11 +27,15 @@ public final class Comment {
     return author;
   }
 
-  public Date getDate() {
-    return date;
+  public Date getTimeStamp() {
+    return timeStamp;
   }
 
   public String getComment() {
     return comment;
+  }
+
+  public long getId() {
+    return id;
   }
 }
