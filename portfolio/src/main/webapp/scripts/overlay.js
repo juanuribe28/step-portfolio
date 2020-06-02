@@ -8,6 +8,7 @@ function toggleOverlay(section) {
   if (isShowingOverlay) {
     hideOverlay(activeOverlay);
   }
+  
   if (activeOverlay === section) {
     activeOverlay = null;
   } else {
