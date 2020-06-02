@@ -6,11 +6,18 @@ $("document").ready(function() {
 
     fetch('/data')
     .then(promiseResponse => promiseResponse.json())
-    .then((commentsObj) => {
-      for(let i = 0; i < commentsObj.length; i++) {
-        let commentHtml = Mustache.render(htmlTemplate, commentsObj[i]);
-        $('#comments').prepend(commentHtml);
-      }
+    .then((commentOsbj) => {
+      renderList(htmlTemplate, commentObjs);
     })
   })
 })
+
+/**
+ * Renders a list of  objects to the DOM, using the specified HTML template
+ */
+function renderList(template, listObjs) {
+  for(let i = 0; i < listObjs.length; i++) {
+    let commentHtml = Mustache.render(htmlTemplate, listObjs[i]);
+    $('#comments').prepend(commentHtml);
+  }
+}
