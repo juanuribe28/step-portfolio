@@ -19,6 +19,9 @@ import com.google.sps.data.Comment;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -32,11 +35,11 @@ import com.google.gson.Gson;
 
 /** Servlet that returns some example content.*/
 @WebServlet("/list-comments")
-public class DataServlet extends HttpServlet {
+public class ListCommentsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timeStamp", SortDirection.DESCENDING);
+    Query query = new Query("Comment").addSort("timeStamp", SortDirection.ASCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
