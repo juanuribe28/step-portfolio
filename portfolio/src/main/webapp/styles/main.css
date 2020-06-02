@@ -36,6 +36,10 @@ header{
   width: 100%;
   position: absolute;
 }
+#title > a {
+  color: white;
+  text-decoration: none;
+}
 
 #contact {
   padding: 0;
