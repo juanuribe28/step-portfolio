@@ -7,14 +7,14 @@ public final class Comment {
 
   private final String title;
   private final String author;
-  private final Date timeStamp;
+  private final Date timestamp;
   private final String comment;
   private final long id;
 
-  public Comment(String title, String author, Date timeStamp, String comment, long id) {
+  public Comment(String title, String author, Date timestamp, String comment, long id) {
     this.title = title;
     this.author = author;
-    this.timeStamp = timeStamp;
+    this.timestamp = timestamp;
     this.comment = comment;
     this.id = id;
   }
@@ -27,8 +27,8 @@ public final class Comment {
     return author;
   }
 
-  public Date getTimeStamp() {
-    return timeStamp;
+  public Date getTimestamp() {
+    return timestamp;
   }
 
   public String getComment() {

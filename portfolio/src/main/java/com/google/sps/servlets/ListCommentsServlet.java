@@ -40,7 +40,7 @@ public class ListCommentsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timeStamp", SortDirection.DESCENDING);
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -51,11 +51,11 @@ public class ListCommentsServlet extends HttpServlet {
     for (Entity entity : topResults) {
       String title = (String) entity.getProperty("title");
       String author = (String) entity.getProperty("author");
-      Date timeStamp = (Date) entity.getProperty("timeStamp");
+      Date timestamp = (Date) entity.getProperty("timestamp");
       String comment = (String) entity.getProperty("comment");
       long id = entity.getKey().getId();
 
-      Comment commentObj = new Comment(title, author, timeStamp, comment, id);
+      Comment commentObj = new Comment(title, author, timestamp, comment, id);
       commentList.add(commentObj);
     }
 
