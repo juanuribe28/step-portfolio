@@ -1,4 +1,16 @@
 /**
+ * Loads n number of comments to the Dom based on the given template promise.
+ */
+
+function loadNComments(templatePromise, nComments){
+  templatePromise.then((template) => {
+    loadComments(nComments).then((commentObjs) => {
+      renderList(template, commentObjs, '#comments');
+    })
+  })
+}
+
+/**
  * Loads the template from the url.
  * Returns a promise of the template.
  */
@@ -24,4 +36,8 @@ function renderList(template, listObjs, parentId) {
     let html = Mustache.render(template, listObjs[i]);
     $(parentId).prepend(html);
   }
+}
+
+function emptyComments(){
+  $("#comments").empty();
 }
