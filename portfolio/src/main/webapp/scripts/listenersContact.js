@@ -9,7 +9,11 @@ $("document").ready(function() {
 });
 
 nCommentsInput.addEventListener('change', () =>{
-  emptyComments();
   let nComments = nCommentsInput.value;
+  if (nComments < 1) {
+    alert("Please enter a positive integer");
+    return;
+  }
+  emptyComments();
   loadNComments(templatePromise, nComments);
 });
