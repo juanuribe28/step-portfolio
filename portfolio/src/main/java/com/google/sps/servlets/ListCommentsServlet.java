@@ -34,7 +34,7 @@ import java.util.*;
 
 import com.google.gson.Gson;
 
-/** Servlet that lists the comments some example content.*/
+/** Servlet that lists the comments.*/
 @WebServlet("/list-comments")
 public class ListCommentsServlet extends HttpServlet {
 
