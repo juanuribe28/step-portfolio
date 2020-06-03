@@ -34,7 +34,7 @@ import java.util.*;
 
 import com.google.gson.Gson;
 
-/** Servlet that returns some example content.*/
+/** Servlet that lists the comments some example content.*/
 @WebServlet("/list-comments")
 public class ListCommentsServlet extends HttpServlet {
 
@@ -49,7 +49,7 @@ public class ListCommentsServlet extends HttpServlet {
 
     if (nComments == -1) {
       response.setContentType("text/html");
-      response.getWriter().println("Please enter an integer between 1 and 3.");
+      response.getWriter().println("Please enter an integer greater than 1 for nComments");
       return;
     }
     
