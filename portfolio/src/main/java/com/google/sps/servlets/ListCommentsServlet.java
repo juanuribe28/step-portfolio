@@ -45,6 +45,7 @@ public class ListCommentsServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    // int nComments = request.getParameter("n-comments");
     List<Entity> topResults = results.asList(FetchOptions.Builder.withLimit(5));
 
     ArrayList<Comment> commentList = new ArrayList<Comment>();
