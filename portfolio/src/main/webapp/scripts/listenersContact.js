@@ -1,4 +1,5 @@
 const nCommentsInput = document.querySelector("#nComments");
+const deleteCommentsButton = document.querySelector("#deleteComments");
 
 const defaultNComments = 10;
 
@@ -16,4 +17,9 @@ nCommentsInput.addEventListener('change', () => {
   }
   emptyComments();
   loadNComments(templatePromise, nComments);
+});
+
+deleteCommentsButton.addEventListener('click', () => {
+  emptyComments();
+  deleteAllComments();
 });
