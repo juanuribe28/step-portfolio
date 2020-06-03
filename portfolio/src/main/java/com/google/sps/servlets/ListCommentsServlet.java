@@ -45,8 +45,15 @@ public class ListCommentsServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    // int nComments = request.getParameter("n-comments");
-    List<Entity> topResults = results.asList(FetchOptions.Builder.withLimit(5));
+    int nComments = getNCommentsChoice(request);
+
+    if (nComments == -1) {
+      response.setContentType("text/html");
+      response.getWriter().println("Please enter an integer between 1 and 3.");
+      return;
+    }
+    
+    List<Entity> topResults = results.asList(FetchOptions.Builder.withLimit(nComments));
 
     ArrayList<Comment> commentList = new ArrayList<Comment>();
     for (Entity entity : topResults) {
@@ -64,5 +71,24 @@ public class ListCommentsServlet extends HttpServlet {
 
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(commentList));
+  }
+
+  /** Returns the number of comments entered by the user, or -1 if the choice was invalid. */
+  private int getNCommentsChoice(HttpServletRequest request) {
+    String nCommentsString = request.getParameter("nComments");
+    int nComments;
+    try {
+      nComments = Integer.parseInt(nCommentsString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + nCommentsString);
+      return -1;
+    }
+
+    if (nComments < 1) {
+      System.err.println("Number of comments choice is out of range: " + nCommentsString);
+      return -1;
+    }
+
+    return nComments;
   }
 }
