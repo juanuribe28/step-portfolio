@@ -42,6 +42,16 @@ public class DeleteCommentsServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String idString = request.getParameter("id");
+    if (idString == null) {
+      deleteAllComments();
+    } else {
+      long id = Long.parseLong(idString);
+      deleteSingleComment(id);
+    }
+  }
+
+  public void deleteAllComments() {
     Query query = new Query("Comment");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -50,5 +60,11 @@ public class DeleteCommentsServlet extends HttpServlet {
       Key key = entity.getKey();
       datastore.delete(key);
     }
+  }
+
+  public void deleteSingleComment(long id) {
+    Key key = KeyFactory.createKey("Comment", id);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.delete(key);
   }
 }
