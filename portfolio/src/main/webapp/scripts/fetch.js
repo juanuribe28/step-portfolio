@@ -11,8 +11,8 @@ function loadTemplate(url) {
  * Loads the comments from the server.
  * Returns a promise of the comments.
  */
-function loadComments(htmlTemplate) {
-  const commentsPromise = fetch('/list-comments').then(promiseResponse => promiseResponse.json());
+function loadComments(nComments) {
+  const commentsPromise = fetch(`/list-comments?nComments=${nComments}`).then(promiseResponse => promiseResponse.json());
   return commentsPromise;
 }
 
