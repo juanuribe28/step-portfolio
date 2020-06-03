@@ -8,8 +8,12 @@ $("document").ready(function() {
   loadNComments(templatePromise, defaultNComments);
 });
 
-nCommentsInput.addEventListener('change', () =>{
-  emptyComments();
+nCommentsInput.addEventListener('change', () => {
   let nComments = nCommentsInput.value;
+  if (nComments < 1) {
+    alert("Please enter a positive integer");
+    return;
+  }
+  emptyComments();
   loadNComments(templatePromise, nComments);
 });
