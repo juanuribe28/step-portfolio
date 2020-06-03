@@ -38,6 +38,23 @@ function renderList(template, listObjs, parentId) {
   }
 }
 
-function emptyComments(){
+function emptyComments() {
   $("#comments").empty();
+}
+
+// function deleteComment() {
+//   const params = new URLSearchParams();
+//   params.append('id', task.id);
+//   fetch('/delete-task', {method: 'POST', body: params})
+//   .then(() => {
+
+//   })
+// }
+
+/**
+ * Deletes all comments from datastore.
+ */
+function deleteAllComments() {
+  const request = new Request('/delete-comment', {method: 'POST'});
+  fetch(request);
 }
