@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -33,19 +34,29 @@ import java.util.*;
 
 import com.google.gson.Gson;
 
-/** Servlet that returns some example content.*/
+/** Servlet that lists the comments.*/
 @WebServlet("/list-comments")
 public class ListCommentsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.ASCENDING);
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    int nComments = getNCommentsChoice(request);
+
+    if (nComments == -1) {
+      response.setContentType("text/html");
+      response.getWriter().println("Please enter an integer greater than or equal to 1 for nComments");
+      return;
+    }
+    
+    List<Entity> topResults = results.asList(FetchOptions.Builder.withLimit(nComments));
+
     ArrayList<Comment> commentList = new ArrayList<Comment>();
-    for (Entity entity : results.asIterable()) {
+    for (Entity entity : topResults) {
       String title = (String) entity.getProperty("title");
       String author = (String) entity.getProperty("author");
       Date timestamp = (Date) entity.getProperty("timestamp");
@@ -60,5 +71,24 @@ public class ListCommentsServlet extends HttpServlet {
 
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(commentList));
+  }
+
+  /** Returns the number of comments entered by the user, or -1 if the choice was invalid. */
+  private int getNCommentsChoice(HttpServletRequest request) {
+    String nCommentsString = request.getParameter("nComments");
+    int nComments;
+    try {
+      nComments = Integer.parseInt(nCommentsString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + nCommentsString);
+      return -1;
+    }
+
+    if (nComments < 1) {
+      System.err.println("Number of comments choice is out of range: " + nCommentsString);
+      return -1;
+    }
+
+    return nComments;
   }
 }
