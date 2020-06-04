@@ -53,13 +53,14 @@
 }
 
 .comment-section {
+  width: 80%;
   box-shadow: 0.2vw 0.2vh 0.5em;
   padding: 2vh 1vw;
-  margin: 2vh 0;
+  margin: 2vh auto;
   display: grid;
-  grid: [row1-start] "title   delete " 1fr [row1-end]
-        [row2-start] "author  author " 1fr [row2-end]
-        [row3-start] "comment comment" 2fr [row3-end]
+  grid: [row1-start] "title   delete " 1fr  [row1-end]
+        [row2-start] "author  author " 1fr  [row2-end]
+        [row3-start] "comment comment" auto [row3-end]
         / 12fr 1fr;
   gap: 0.5vh 0.5vw;
   place-items: start start;
@@ -74,10 +75,12 @@
 }
 .title {
   grid-area: title;
+  margin: 0;
 }
 
 .author {
   grid-area: author;
+  margin: 0;
 }
 
 .comment {
