@@ -49,7 +49,7 @@ public class ListCommentsServlet extends HttpServlet {
 
     if (nComments == -1) {
       response.setContentType("text/html");
-      response.getWriter().println("Please enter an integer greater than 1 for nComments");
+      response.getWriter().println("Please enter an integer greater than or equal to 1 for nComments");
       return;
     }
     
