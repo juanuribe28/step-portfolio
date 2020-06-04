@@ -38,7 +38,7 @@ public class NewCommentServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String title = request.getParameter("comment-title");
     String author = request.getParameter("name");
-    Date currentTime = new Date();
+    long currentTime = System.currentTimeMillis();
     String comment = request.getParameter("textfield");
 
     Entity commentEntity = new Entity("Comment");
@@ -52,5 +52,4 @@ public class NewCommentServlet extends HttpServlet {
 
     response.sendRedirect("/contact.html");
   }
-
 }
