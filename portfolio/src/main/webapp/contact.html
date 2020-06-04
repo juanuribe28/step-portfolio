@@ -24,12 +24,11 @@
         <textarea id="textfield" name="textfield" rows="10" cols="50" placeholder="What are you thinking???"></textarea><br/><br/>
         <input type="submit" id="submit-comment" value="Submit Comment">
       </form>
-      <br/><br/>
-      <div id="nComments-section">
-        <label for="nComments">How many comments do you want to see?</label>
-        <input type="number" id="nComments" name="quantity" min="1">
+      <div id="comment-header">
+        <label for="nComments" id="nComments-label">How many comments do you want to see?</label>
+        <input type="number" id="nComments" name="nComments" min="1" value="10">
+        <button type="button" id="delete-comments">Delete all comments</button>
       </div>
-      <button type="button" id="deleteComments">Delete all comments</button>
       <div id="comments">
       </div>
     </div>

@@ -53,7 +53,7 @@
 }
 
 .comment-section {
-  box-shadow: 0.5em 0.5em 1em;
+  box-shadow: 0.2vw 0.2vh 0.5em;
   padding: 2vh 1vw;
   margin: 2vh 0;
   display: grid;
@@ -69,7 +69,9 @@
   grid-area: delete;
   justify-self: end;
 }
-
+.delete:hover {
+  cursor: pointer;
+}
 .title {
   grid-area: title;
 }
@@ -80,4 +82,31 @@
 
 .comment {
   grid-area: comment;
+}
+
+#comment-header {
+	margin: 5vh 0;
+	display: grid;
+	grid: [row1-start] "question delete" 1fr [row1-end]
+				[row1-start] "answer   delete" 1fr [row1-end]
+				/ 1fr 1fr;
+	gap: 0.5vh 0.5vw;
+	place-items: center center;
+}
+
+#nComments-label {
+	grid-area: question;
+}
+
+#nComments {
+	grid-area: answer;
+	text-align: center;
+	width: max(5vw, 5ch);
+}
+
+#delete-comments {
+	grid-area: delete;
+	margin: 0 0;
+	padding: 1vh 1vw;
+	font-weight: bold;
 }
