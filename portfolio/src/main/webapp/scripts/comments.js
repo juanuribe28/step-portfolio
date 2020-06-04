@@ -44,9 +44,19 @@ function loadComments(nComments) {
 function renderList(template, listObjs, parentId) {
   listObjs = listObjs.reverse();
   listObjs.forEach((obj) => {
+    obj.date = timestampToDateString(obj.timestamp);
     let html = Mustache.render(template, obj);
     $(parentId).prepend(html);
   });
+}
+
+/**
+ * Calculates the date based on the given timestamp in millis.
+ */
+function timestampToDateString(timestamp) {
+  let date = new Date(timestamp);
+  dateString = date.toLocaleString();
+  return dateString;
 }
 
 /**
