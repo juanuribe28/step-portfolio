@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title>Contact Me</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/comments.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://unpkg.com/mustache@latest"></script>
     <script src="/scripts/base.js"></script>
@@ -14,12 +16,13 @@
     <div id="content">
       <form id="comment-form" action="/new-comment" method="POST">
         <h2 id="header">Leave your comment</h2>
-        <label for="main">Title:</label>
-        <input id="main" name="main" type="text"><br/><br/>
-        <label for="name">Name:</label>
+        <label for="comment-title" id="title-label">Title:</label>
+        <input id="comment-title" name="comment-title" type="text"><br/><br/>
+        <label for="name" id="name-label">Name:</label>
         <input id="name" name="name" type="text"><br/><br/>
-        <textarea id="field" name="field" rows="10" cols="50">What are you thinking???</textarea><br/><br/>
-        <input type="submit">
+        <label for="textfield" id="comment-label">Comment:</label>
+        <textarea id="textfield" name="textfield" rows="10" cols="50" placeholder="What are you thinking???"></textarea><br/><br/>
+        <input type="submit" id="submit-comment" value="Submit Comment">
       </form>
       <br/><br/>
       <div id="nComments-section">
