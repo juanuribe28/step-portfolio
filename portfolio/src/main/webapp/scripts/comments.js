@@ -1,18 +1,18 @@
 /**
  * Load comments section.
  */
-function loadCommentsSection(templatePromise, nComments, sortingParam){
+function loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir){
   emptyComments();
-  loadNComments(templatePromise, nComments, sortingParam)
+  loadNComments(templatePromise, nComments, sortingParam, sortingDir)
   .then(addEventListenerComments);
 }
 
 /**
  * Loads n number of comments to the Dom based on the given template promise.
  */
-function loadNComments(templatePromise, nComments, sortingParam){
+function loadNComments(templatePromise, nComments, sortingParam, sortingDir){
   let promise = templatePromise.then((template) => {
-    promise = loadComments(nComments, sortingParam).then((commentObjs) => {
+    promise = loadComments(nComments, sortingParam, sortingDir).then((commentObjs) => {
       renderList(template, commentObjs, '#comments');
     });
     return promise;
@@ -33,8 +33,8 @@ function loadTemplate(url) {
  * Loads the comments from the server.
  * Returns a promise of the comments.
  */
-function loadComments(nComments, sortingParam) {
-  const commentsPromise = fetch(`/list-comments?nComments=${nComments}&sorting=${sortingParam}`).then(promiseResponse => promiseResponse.json());
+function loadComments(nComments, sortingParam, sortingDir) {
+  const commentsPromise = fetch(`/list-comments?nComments=${nComments}&sorting=${sortingParam}&dir=${sortingDir}`).then(promiseResponse => promiseResponse.json());
   return commentsPromise;
 }
 
