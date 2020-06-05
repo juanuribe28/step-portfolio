@@ -87,8 +87,9 @@
   margin: 2vh auto;
   display: grid;
   grid: [row1-start] "title   delete " 1fr  [row1-end]
-        [row2-start] "author  author " 1fr  [row2-end]
-        [row3-start] "comment comment" auto [row3-end]
+        [row2-start] "rating  .      " 1fr  [row2-end]
+        [row3-start] "author  author " 1fr  [row3-end]
+        [row4-start] "comment comment" auto [row4-end]
         / 12fr 1fr;
   gap: 0.5vh 0.5vw;
   place-items: start start;
@@ -103,6 +104,12 @@
 }
 .title {
   grid-area: title;
+  margin: 0;
+}
+
+.rating {
+  grid-area: rating;
+  color: goldenrod;
   margin: 0;
 }
 
