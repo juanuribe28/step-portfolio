@@ -8,13 +8,15 @@ public final class Comment {
   private final String title;
   private final String author;
   private final long timestamp;
+  private final long rating;
   private final String comment;
   private final long id;
 
-  public Comment(String title, String author, long timestamp, String comment, long id) {
+  public Comment(String title, String author, long timestamp, long rating, String comment, long id) {
     this.title = title;
     this.author = author;
     this.timestamp = timestamp;
+    this.rating = rating;
     this.comment = comment;
     this.id = id;
   }
@@ -29,6 +31,10 @@ public final class Comment {
 
   public long getTimestamp() {
     return timestamp;
+  }
+
+  public long getRating() {
+    return rating;
   }
 
   public String getComment() {
