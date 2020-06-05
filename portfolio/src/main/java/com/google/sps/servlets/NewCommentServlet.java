@@ -36,10 +36,10 @@ public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String title = request.getParameter("main");
+    String title = request.getParameter("comment-title");
     String author = request.getParameter("name");
     Date currentTime = new Date();
-    String comment = request.getParameter("field");
+    String comment = request.getParameter("textfield");
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("title", title);

@@ -1,0 +1,115 @@
+#comment-form {
+  display: grid;
+  grid: [row1-start] "header        header       " 1.5fr [row1-end]
+        [row2-start] "title-label   title-field  " 1fr   [row2-end]
+        [row3-start] "name-label    name-field   " 1fr   [row3-end]
+        [row4-start] "comment-label comment-field" 2fr   [row4-end]
+        [row4-start] ".             .            " 0fr   [row4-end]
+        [row5-start] "submit        .            " 1fr   [row5-end]
+        / 1fr 3fr;
+  gap: 1vh 0.5vw;
+  place-items: start stretch;
+}
+
+#header {
+  align-self: center;
+  grid-area: header;
+}
+
+#title-label {
+  grid-area: title-label;
+}
+
+#comment-title {
+  grid-area: title-field;
+}
+
+#name-label {
+  grid-area: name-label;
+}
+
+#name {
+  grid-area: name-field;
+}
+
+#comment-label {
+  grid-area: comment-label;
+}
+
+#textfield {
+  resize: none;
+  grid-area: comment-field;
+}
+
+#submit-comment {
+  background-color: midnightblue;
+  text-align: center;
+  padding: 1vh 1vw;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  grid-area: submit;
+}
+
+.comment-section {
+  width: 80%;
+  box-shadow: 0.2vw 0.2vh 0.5em;
+  padding: 2vh 1vw;
+  margin: 2vh auto;
+  display: grid;
+  grid: [row1-start] "title   delete " 1fr  [row1-end]
+        [row2-start] "author  author " 1fr  [row2-end]
+        [row3-start] "comment comment" auto [row3-end]
+        / 12fr 1fr;
+  gap: 0.5vh 0.5vw;
+  place-items: start start;
+}
+
+.delete {
+  grid-area: delete;
+  justify-self: end;
+}
+.delete:hover {
+  cursor: pointer;
+}
+.title {
+  grid-area: title;
+  margin: 0;
+}
+
+.author {
+  grid-area: author;
+  margin: 0;
+}
+
+.comment {
+  grid-area: comment;
+}
+
+#comment-header {
+  margin: 5vh 0;
+  display: grid;
+  grid: [row1-start] "question delete" 1fr [row1-end]
+        [row1-start] "answer   delete" 1fr [row1-end]
+        / 1fr 1fr;
+  gap: 0.5vh 0.5vw;
+  place-items: center center;
+}
+
+#nComments-label {
+  grid-area: question;
+}
+
+#nComments {
+  grid-area: answer;
+  text-align: center;
+  width: max(5vw, 5ch);
+}
+
+#delete-comments {
+  grid-area: delete;
+  margin: 0 0;
+  padding: 1vh 1vw;
+  font-weight: bold;
+}

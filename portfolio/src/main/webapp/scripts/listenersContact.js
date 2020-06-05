@@ -1,5 +1,5 @@
 const nCommentsInput = document.querySelector('#nComments');
-const deleteCommentsButton = document.querySelector('#deleteComments');
+const deleteCommentsButton = document.querySelector('#delete-comments');
 
 const templatePromise = loadTemplate('/content/comment.html');
 
