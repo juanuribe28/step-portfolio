@@ -1,13 +1,23 @@
 /**
+ * Load comments section.
+ */
+function loadCommentsSection(templatePromise, nComments){
+  emptyComments();
+  loadNComments(templatePromise, nComments)
+  .then(addEventListenerComments);
+}
+
+/**
  * Loads n number of comments to the Dom based on the given template promise.
  */
-
 function loadNComments(templatePromise, nComments){
-  templatePromise.then((template) => {
-    loadComments(nComments).then((commentObjs) => {
+  let promise = templatePromise.then((template) => {
+    promise = loadComments(nComments).then((commentObjs) => {
       renderList(template, commentObjs, '#comments');
-    })
-  })
+    });
+    return promise;
+  });
+  return promise;
 }
 
 /**
@@ -32,12 +42,34 @@ function loadComments(nComments) {
  * Renders a list of objects to the DOM, using the specified HTML template
  */
 function renderList(template, listObjs, parentId) {
-  for (let i = 0; i < listObjs.length; i++) {
-    let html = Mustache.render(template, listObjs[i]);
+  listObjs = listObjs.reverse();
+  listObjs.forEach((obj) => {
+    let html = Mustache.render(template, obj);
     $(parentId).prepend(html);
-  }
+  });
 }
 
-function emptyComments(){
+/**
+ * Empties the comment section in the DOM.
+ */
+function emptyComments() {
   $("#comments").empty();
+}
+
+/**
+ * Deletes the comment with the specified id from datastore.
+ */
+function deleteComment(id) {
+  const params = new URLSearchParams();
+  params.append('id', id);
+  const request = new Request('/delete-comment', {method: 'POST', body: params});
+  fetch(request);
+}
+
+/**
+ * Deletes all comments from datastore.
+ */
+function deleteAllComments() {
+  const request = new Request('/delete-comment', {method: 'POST'});
+  fetch(request);
 }
