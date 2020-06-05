@@ -1,12 +1,14 @@
 const nCommentsInput = document.querySelector('#nComments');
+const sortingParamInput = document.querySelector("#sorting");
 const deleteCommentsButton = document.querySelector('#delete-comments');
 
 const templatePromise = loadTemplate('/content/comment.html');
 
-let nComments = 10;
+let nComments = nCommentsInput.value;
+let sortingParam = sortingParamInput.value;
 
 $('document').ready(() => {
-  loadCommentsSection(templatePromise, nComments);
+  loadCommentsSection(templatePromise, nComments, sortingParam);
 });
 
 nCommentsInput.addEventListener('change', () => {
@@ -15,7 +17,12 @@ nCommentsInput.addEventListener('change', () => {
     alert('Please enter a positive integer');
     return;
   }
-  loadCommentsSection(templatePromise, nComments);
+  loadCommentsSection(templatePromise, nComments, sortingParam);
+});
+
+sortingParamInput.addEventListener('change', () => {
+  sortingParam = sortingParamInput.value;
+  loadCommentsSection(templatePromise, nComments, sortingParam);
 });
 
 deleteCommentsButton.addEventListener('click', () => {
@@ -29,7 +36,7 @@ function addEventListenerComments(){
     const deleteX = comment.querySelector('.delete');
     deleteX.addEventListener('click', () => {
       deleteComment(comment.id);
-      loadCommentsSection(templatePromise, nComments);
+      loadCommentsSection(templatePromise, nComments, sortingParam);
     }); 
   });
 }
