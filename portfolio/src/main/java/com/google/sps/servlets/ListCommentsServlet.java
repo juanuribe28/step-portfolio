@@ -41,8 +41,11 @@ public class ListCommentsServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String sortingParameter = request.getParameter("sorting");
+    String sortingDirectionString = request.getParameter("dir");
 
-    Query query = new Query("Comment").addSort(sortingParameter, SortDirection.DESCENDING);
+    SortDirection sortingDirection = sortingDirectionString.equals("descending") ? SortDirection.DESCENDING : SortDirection.ASCENDING;
+
+    Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
