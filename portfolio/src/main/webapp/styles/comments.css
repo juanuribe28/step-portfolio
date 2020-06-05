@@ -125,19 +125,20 @@
 #comment-header {
   margin: 5vh 0;
   display: grid;
-  grid: [row1-start] "question delete" 1fr [row1-end]
-        [row1-start] "answer   delete" 1fr [row1-end]
-        / 1fr 1fr;
+  grid: [row1-start] "question1 answer1 .       delete" 1fr [row1-end]
+        [row2-start] "question2 select1 select2 delete" 2fr [row2-end]
+        / 6fr 1fr  1fr 4fr;
   gap: 0.5vh 0.5vw;
   place-items: center center;
 }
 
 #nComments-label {
-  grid-area: question;
+  grid-area: question1;
+  justify-self: end;
 }
 
 #nComments {
-  grid-area: answer;
+  grid-area: answer1;
   text-align: center;
   width: max(5vw, 5ch);
 }
@@ -147,4 +148,17 @@
   margin: 0 0;
   padding: 1vh 1vw;
   font-weight: bold;
+}
+
+#sorting-label {
+  grid-area: question2;
+  justify-self: end;
+}
+
+#sorting-param {
+  grid-area: select1;
+}
+
+#sorting-dir {
+  grid-area: select2;
 }
