@@ -1,5 +1,5 @@
 const nCommentsInput = document.querySelector('#nComments');
-const sortingParamInput = document.querySelector("#sorting");
+const sortingParamInput = document.querySelector("#sorting-param");
 const deleteCommentsButton = document.querySelector('#delete-comments');
 
 const templatePromise = loadTemplate('/content/comment.html');
