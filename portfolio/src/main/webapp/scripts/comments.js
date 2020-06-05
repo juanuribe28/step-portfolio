@@ -45,6 +45,7 @@ function renderList(template, listObjs, parentId) {
   listObjs = listObjs.reverse();
   listObjs.forEach((obj) => {
     obj.date = timestampToDateString(obj.timestamp);
+    obj.stars = ratingToStars(obj.rating, 'star_border');
     let html = Mustache.render(template, obj);
     $(parentId).prepend(html);
   });
@@ -57,6 +58,14 @@ function timestampToDateString(timestamp) {
   let date = new Date(timestamp);
   dateString = date.toLocaleString();
   return dateString;
+}
+
+/**
+ * Repeats te given string the number given by rating.
+ */
+function ratingToStars(rating, starString) {
+  let starsString = starString.repeat(rating);
+  return starsString;
 }
 
 /**
