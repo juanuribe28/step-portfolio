@@ -59,7 +59,7 @@ public class ListCommentsServlet extends HttpServlet {
     for (Entity entity : topResults) {
       String title = (String) entity.getProperty("title");
       String author = (String) entity.getProperty("author");
-      Date timestamp = (Date) entity.getProperty("timestamp");
+      long timestamp = (long) entity.getProperty("timestamp");
       String comment = (String) entity.getProperty("comment");
       long id = entity.getKey().getId();
 
