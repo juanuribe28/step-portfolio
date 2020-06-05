@@ -127,7 +127,7 @@
   display: grid;
   grid: [row1-start] "question1 answer1 .       delete" 1fr [row1-end]
         [row2-start] "question2 select1 select2 delete" 2fr [row2-end]
-        / 6fr 1fr  1fr 4fr;
+        / 6fr 1fr 1fr 4fr;
   gap: 0.5vh 0.5vw;
   place-items: center center;
 }
@@ -141,6 +141,7 @@
   grid-area: answer1;
   text-align: center;
   width: max(5vw, 5ch);
+  color: midnightblue;
 }
 
 #delete-comments {
@@ -161,4 +162,9 @@
 
 #sorting-dir {
   grid-area: select2;
+}
+
+.sorting {
+  background-color: white;
+  color: midnightblue;
 }

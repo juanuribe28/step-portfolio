@@ -47,13 +47,13 @@
         <label for="nComments" id="nComments-label">How many comments do you want to see?</label>
         <input type="number" id="nComments" name="nComments" min="1" value="10">
         <label for="sorting" id="sorting-label">How do you want to sort the comments?</label>
-        <select name="sorting-param" id="sorting-param">
+        <select name="sorting-param" id="sorting-param" class="sorting">
           <option value="title">Title</option>
           <option value="author">Author</option>
           <option value="timestamp" selected>Date</option>
           <option value="rating">Rating</option>
         </select>
-        <select name="sorting-dir" id="sorting-dir">
+        <select name="sorting-dir" id="sorting-dir" class="sorting">
           <option value="ascending"><i class="material-icons">Ascending</i></option>
           <option value="descending" selected>Descending</option>
         </select>
