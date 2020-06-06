@@ -69,8 +69,15 @@ public class ListCommentsServlet extends HttpServlet {
       String comment = (String) entity.getProperty("comment");
       long id = entity.getKey().getId();
 
-      Comment commentObj = new Comment(title, author, timestamp, rating, comment, id);
-      commentList.add(commentObj);
+      Comment commentObject = new Comment.CommentBuilder(id)
+      .title(title)
+      .author(author)
+      .timestamp(timestamp)
+      .rating(rating)
+      .comment(comment)
+      .build();
+      
+      commentList.add(commentObject);
     }
 
     Gson gson = new Gson();
