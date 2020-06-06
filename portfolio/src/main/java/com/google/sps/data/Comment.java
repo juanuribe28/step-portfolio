@@ -12,6 +12,7 @@ public final class Comment {
   private final String comment;
   private final long id;
 
+  /** TODO: Use the Builder pattern instead of Constructor*/
   public Comment(String title, String author, long timestamp, long rating, String comment, long id) {
     this.title = title;
     this.author = author;
