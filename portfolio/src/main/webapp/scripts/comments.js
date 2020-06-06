@@ -1,3 +1,10 @@
+function updateCommentSection() {
+  let nComments = nCommentsInput.value;
+  let sortingParam = sortingParamInput.value;
+  let sortingDir = sortingDirInput.value;
+  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir)
+}
+
 /**
  * Load comments section.
  */
