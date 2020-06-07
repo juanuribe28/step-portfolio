@@ -49,14 +49,14 @@
         <input type="number" id="nComments" name="nComments" min="1" value="10">
         <label for="sorting" id="sorting-label">How do you want to sort the comments?</label>
         <select name="sorting-param" id="sorting-param" class="sorting">
-          <option value="title">Title</option>
-          <option value="author">Author</option>
-          <option value="timestamp" selected>Date</option>
-          <option value="rating">Rating</option>
+          <option value="title" id="title-option">Title</option>
+          <option value="author" id="author-option">Author</option>
+          <option value="timestamp" id="timestamp-option" selected>Date</option>
+          <option value="rating" id="rating-option">Rating</option>
         </select>
         <select name="sorting-dir" id="sorting-dir" class="sorting">
-          <option value="ascending"><i class="material-icons">Ascending</i></option>
-          <option value="descending" selected>Descending</option>
+          <option value="ascending" id="ascending-option"><i class="material-icons">Ascending</i></option>
+          <option value="descending" id="descending-option" selected>Descending</option>
         </select>
         <button type="button" id="delete-comments">Delete all comments</button>
       </div>
@@ -65,6 +65,7 @@
     </div>
     <footer>
     </footer>
+    <script src="/scripts/cookies.js"></script>
     <script src="/scripts/comments.js"></script>
     <script src="/scripts/listenersContact.js"></script>
   </body>
