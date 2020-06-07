@@ -5,21 +5,20 @@ import java.util.*;
 /** Class containing user comments */
 public final class Comment {
 
-  private final String title;
-  private final String author;
-  private final long timestamp;
-  private final long rating;
-  private final String comment;
+  private String title;
+  private String author;
+  private long timestamp;
+  private long rating;
+  private String comment;
   private final long id;
 
-  /** TODO: Use the Builder pattern instead of Constructor*/
-  public Comment(String title, String author, long timestamp, long rating, String comment, long id) {
-    this.title = title;
-    this.author = author;
-    this.timestamp = timestamp;
-    this.rating = rating;
-    this.comment = comment;
-    this.id = id;
+  private Comment(CommentBuilder builder) {
+    this.title = builder.title;
+    this.author = builder.author;
+    this.timestamp = builder.timestamp;
+    this.rating = builder.rating;
+    this.comment = builder.comment;
+    this.id = builder.id;
   }
 
   public String getTitle() {
@@ -44,5 +43,50 @@ public final class Comment {
 
   public long getId() {
     return id;
+  }
+
+  /** Class used to build comments */
+  public static class CommentBuilder {
+
+    private String title;
+    private String author;
+    private long timestamp;
+    private long rating;
+    private String comment;
+    private final long id;
+
+    public CommentBuilder(long id) {
+      this.id = id;
+    }
+
+    public CommentBuilder title(String title) {
+      this.title = title;
+      return this;
+    }
+
+    public CommentBuilder author(String author) {
+      this.author = author;
+      return this;
+    }
+
+    public CommentBuilder comment(String comment) {
+      this.comment = comment;
+      return this;
+    }
+
+    public CommentBuilder timestamp(long timestamp) {
+      this.timestamp = timestamp;
+      return this;
+    }
+
+    public CommentBuilder rating(long rating) {
+      this.rating = rating;
+      return this;
+    }
+
+    public Comment build() {
+      Comment commentObject = new Comment(this);
+      return commentObject;
+    }
   }
 }
