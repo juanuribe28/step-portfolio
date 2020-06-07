@@ -49,4 +49,4 @@ function loadNumericValueCookie(cookieName) {
   if (cookieValue !== "") {
       document.getElementById(cookieName).value = cookieValue;
   }
-} 
+}
