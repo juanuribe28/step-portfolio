@@ -1,8 +1,19 @@
+/**
+ * Set the cookie value of an event and call to update the comments.
+ */
+function updateCommentsAndCookies(event){
+  setChangeCookie(event);
+  updateCommentSection();
+}
+
+/**
+ * Update values in the comments section.
+ */
 function updateCommentSection() {
   let nComments = nCommentsInput.value;
   let sortingParam = sortingParamInput.value;
   let sortingDir = sortingDirInput.value;
-  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir)
+  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir);
 }
 
 /**

@@ -5,10 +5,15 @@ const deleteCommentsButton = document.querySelector('#delete-comments');
 
 const templatePromise = loadTemplate('/content/comment.html');
 
-$('document').ready(updateCommentSection);
-nCommentsInput.addEventListener('change', updateCommentSection);
-sortingParamInput.addEventListener('change', updateCommentSection);
-sortingDirInput.addEventListener('change', updateCommentSection);
+$('document').ready(() => {
+  loadNumericValueCookie('nComments');
+  loadSelectValueCookie('sorting-param');
+  loadSelectValueCookie('sorting-dir')
+  updateCommentSection();
+  });
+nCommentsInput.addEventListener('change', updateCommentsAndCookies);
+sortingParamInput.addEventListener('change', updateCommentsAndCookies);
+sortingDirInput.addEventListener('change', updateCommentsAndCookies);
 
 deleteCommentsButton.addEventListener('click', () => {
   emptyComments();
