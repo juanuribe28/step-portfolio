@@ -1,9 +1,16 @@
+const HOURS_PER_DAY = 24;
+const MINUTES_PER_HOUR = 60;
+const SECONDS_PER_MINUTE = 60;
+const SECONDS_PER_DAY = SECONDS_PER_MINUTE * SECONDS_PER_DAY * HOURS_PER_DAY;
+const MILLISECONDS_PER_SECOND = 1000;
+
+
 /**
  * Create a new cookie based on name, value and days before expiring.
  */
 function setCookie(name, value, expirationDays) {
   let date = new Date();
-  date.setTime(date.getTime+(expirationDays*24*60*60*1000));
+  date.setTime(date.getTime+(expirationDays*SECONDS_PER_DAY*MILLISECONDS_PER_SECOND));
   document.cookie = `${name}=${value};expires=${expirationDays}`;
 }
 
