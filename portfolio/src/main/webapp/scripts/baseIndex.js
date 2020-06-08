@@ -1,6 +1,6 @@
 $("document").ready(function() {
   let templatePromise = loadTemplate('content/header.html');
-  let objPromise = fetch('/auth').then(promiseResponse => promiseResponse.json());
+  let objPromise = loadObject('/auth');
   Promise.all([templatePromise, objPromise]).then((values) => {
     let template = values[0];
     let obj = values[1];
