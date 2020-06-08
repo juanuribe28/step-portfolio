@@ -39,15 +39,6 @@ function loadNComments(templatePromise, nComments, sortingParam, sortingDir){
 }
 
 /**
- * Loads the template from the url.
- * Returns a promise of the template.
- */
-function loadTemplate(url) {
-  const templatePromise = fetch(url).then(promiseResponse => promiseResponse.text());
-  return templatePromise;
-}
-
-/**
  * Loads the comments from the server.
  * Returns a promise of the comments.
  */
