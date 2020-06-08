@@ -1,11 +1,11 @@
 $("document").ready(function() {
-  let templatePromise = loadTemplate('content/header.html');
-  let objPromise = loadObject('/auth');
-  Promise.all([templatePromise, objPromise]).then((values) => {
-    let template = values[0];
-    let obj = values[1];
-    let html = Mustache.render(template, obj);
-    $("header").html(html);
+  let headerTemplatePromise = loadTemplate('content/header.html');
+  let loginObjPromise = fetch('/auth').then(promiseResponse => promiseResponse.json());
+  Promise.all([headerTemplatePromise, loginObjPromise]).then((values) => {
+    let headerTemplate = values[0];
+    let loginStatus = values[1];
+    let htmlHeader = Mustache.render(headerTemplate, loginStatus);
+    $("header").html(htmlHeader);
   });
   $("footer").load('content/footer.html').addClass('center');
 })
