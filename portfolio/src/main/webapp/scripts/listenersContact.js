@@ -5,32 +5,15 @@ const deleteCommentsButton = document.querySelector('#delete-comments');
 
 const templatePromise = loadTemplate('/content/comment.html');
 
-let nComments = nCommentsInput.value;
-let sortingParam = sortingParamInput.value;
-let sortingDir = sortingDirInput.value;
-
 $('document').ready(() => {
-  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir);
-});
-
-nCommentsInput.addEventListener('change', () => {
-  nComments = nCommentsInput.value;
-  if (nComments < 1) {
-    alert('Please enter a positive integer');
-    return;
-  }
-  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir);
-});
-
-sortingParamInput.addEventListener('change', () => {
-  sortingParam = sortingParamInput.value;
-  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir);
-});
-
-sortingDirInput.addEventListener('change', () => {
-  sortingDir = sortingDirInput.value;
-  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir);
-});
+  loadNumericValueCookie('nComments');
+  loadSelectValueCookie('sorting-param');
+  loadSelectValueCookie('sorting-dir')
+  updateCommentSection();
+  });
+nCommentsInput.addEventListener('change', updateCommentsAndCookies);
+sortingParamInput.addEventListener('change', updateCommentsAndCookies);
+sortingDirInput.addEventListener('change', updateCommentsAndCookies);
 
 deleteCommentsButton.addEventListener('click', () => {
   emptyComments();
@@ -43,7 +26,7 @@ function addEventListenerComments(){
     const deleteX = comment.querySelector('.delete');
     deleteX.addEventListener('click', () => {
       deleteComment(comment.id);
-      loadCommentsSection(templatePromise, nComments, sortingParam);
+      updateCommentSection();
     }); 
   });
 }
