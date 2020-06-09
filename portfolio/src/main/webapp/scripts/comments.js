@@ -4,7 +4,7 @@
 function disableSubmitButton(event) {
   let button = event.currentTarget.querySelector(".submit");
   button.disabled = true;
-  button.value = "Please Wait..."
+  button.value = "Please Wait...";
 }
 
 /**
