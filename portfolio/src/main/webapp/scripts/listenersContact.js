@@ -2,6 +2,7 @@ const nCommentsInput = document.querySelector('#nComments');
 const sortingParamInput = document.querySelector("#sorting-param");
 const sortingDirInput = document.querySelector("#sorting-dir");
 const deleteCommentsButton = document.querySelector('#delete-comments');
+const commentForm = document.querySelector("#comment-form")
 
 const templatePromise = loadTemplate('/content/comment.html');
 
@@ -14,6 +15,8 @@ $('document').ready(() => {
 nCommentsInput.addEventListener('change', updateCommentsAndCookies);
 sortingParamInput.addEventListener('change', updateCommentsAndCookies);
 sortingDirInput.addEventListener('change', updateCommentsAndCookies);
+
+commentForm.addEventListener('submit', disableSubmitButton);
 
 deleteCommentsButton.addEventListener('click', () => {
   emptyComments();
