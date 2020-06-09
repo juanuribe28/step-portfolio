@@ -42,11 +42,18 @@ public class ListCommentsServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String sortingParameter = request.getParameter("sorting");
     String sortingDirectionString = request.getParameter("dir");
+    String showOnlyUserComments = request.getParameter("mine");
 
     SortDirection sortingDirection = sortingDirectionString.equals("descending") ? SortDirection.DESCENDING : SortDirection.ASCENDING;
 
-    //  TODO: filter comments by user id. Make nickname be default author name.
+    //  TODO: filter comments by user id.
     Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);  
+
+    if (showOnlyUserComments.equals("true")) {
+      UserService userService = UserServiceFactory.getUserService();
+      String userId = userService.getCurrentUser().getUserId();
+      query = query.setFilter(new Query.FilterPredicate("userId", Query.FilterOperator.EQUAL, userId));
+    }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
