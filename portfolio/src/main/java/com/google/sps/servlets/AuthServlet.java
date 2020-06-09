@@ -37,6 +37,7 @@ public class AuthServlet extends HttpServlet {
     boolean loginStatus = userService.isUserLoggedIn();
 
     String authUrl;
+    String username = null;
 
     if (!loginStatus) {
       authUrl = userService.createLoginURL("/"); //  TODO: Redirect to the page where the reuqest was made.
@@ -45,9 +46,10 @@ public class AuthServlet extends HttpServlet {
 
       Entity userEntity = makeUserEntity(userService);
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      username = (String) userEntity.getProperty("username");
       datastore.put(userEntity);
     }
-    out.println(String.format("{ \"login\" : %b, \"url\" : \"%s\"}", loginStatus, authUrl));
+    out.println(String.format("{ \"login\" : %b, \"url\" : \"%s\", \"username\" : \"%s\"}", loginStatus, authUrl, username));
   }
 
   private Entity makeUserEntity(UserService userService) {
