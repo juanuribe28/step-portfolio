@@ -39,10 +39,26 @@ public class AuthServlet extends HttpServlet {
     String authUrl;
 
     if (!loginStatus) {
-      authUrl = userService.createLoginURL("/"); //TODO: Redirect to the page where the reuqest was made.
+      authUrl = userService.createLoginURL("/"); //  TODO: Redirect to the page where the reuqest was made.
     } else {
-      authUrl = userService.createLogoutURL("/"); //TODO: Redirect to the page where the reuqest was made.
+      authUrl = userService.createLogoutURL("/"); //  TODO: Redirect to the page where the reuqest was made.
+
+      Entity userEntity = makeUserEntity(userService);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(userEntity);
     }
     out.println(String.format("{ \"login\" : %b, \"url\" : \"%s\"}", loginStatus, authUrl));
+  }
+
+  private Entity makeUserEntity(UserService userService) {
+    String userId = userService.getCurrentUser().getUserId();
+    String userEmail = userService.getCurrentUser().getEmail();
+    String username = userEmail.split("@", 0)[0];  //  TODO: Let the user choose their username.
+
+    Entity userEntity = new Entity("User", userId);
+    userEntity.setProperty("email", userEmail);
+    userEntity.setProperty("username", username);
+
+    return userEntity;
   }
 }
