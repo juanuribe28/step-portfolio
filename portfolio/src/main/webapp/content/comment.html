@@ -1,7 +1,7 @@
 <div class="comment-section" id="{{id}}">
   <span class="delete"><i class="material-icons">delete</i></span>
-  <h4 class="title">{{title}}</h4>
-  <p class="author">{{date}} - By {{author}}</p>
-  <p class="comment">{{comment}}</p>
+  <h4 class="title">{{title}}{{^title}}[No Title]{{/title}}</h4>
+  <p class="author">{{date}} - By {{author}}{{^author}}[No Author]{{/author}}</p>
+  <p class="comment">{{comment}}{{^comment}}[No Body]{{/comment}}</p>
   <p class="rating"><i class="material-icons">{{stars}}</i></p>
 </div>
