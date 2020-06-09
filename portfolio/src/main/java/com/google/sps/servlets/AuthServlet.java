@@ -33,9 +33,7 @@ public class AuthServlet extends HttpServlet {
     PrintWriter out = response.getWriter();
 
     UserService userService = UserServiceFactory.getUserService();
-
     boolean loginStatus = userService.isUserLoggedIn();
-
     String authUrl;
 
     if (loginStatus) {
