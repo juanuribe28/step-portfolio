@@ -23,6 +23,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -46,9 +48,7 @@ public class ListCommentsServlet extends HttpServlet {
 
     SortDirection sortingDirection = sortingDirectionString.equals("descending") ? SortDirection.DESCENDING : SortDirection.ASCENDING;
 
-    //  TODO: filter comments by user id.
     Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);  
-
     if (showOnlyUserComments.equals("true")) {
       UserService userService = UserServiceFactory.getUserService();
       String userId = userService.getCurrentUser().getUserId();

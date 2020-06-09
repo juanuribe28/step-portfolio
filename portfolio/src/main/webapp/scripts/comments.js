@@ -44,7 +44,7 @@ function loadNComments(templatePromise, nComments, sortingParam, sortingDir, onl
  * Returns a promise of the comments.
  */
 function loadComments(nComments, sortingParam, sortingDir, onlyMyComments) {
-  const commentsPromise = fetch(`/list-comments?nComments=${nComments}&sorting=${sortingParam}&dir=${sortingDir}$mine=${onlyMyComments}`).then(promiseResponse => promiseResponse.json());
+  const commentsPromise = fetch(`/list-comments?nComments=${nComments}&sorting=${sortingParam}&dir=${sortingDir}&mine=${onlyMyComments}`).then(promiseResponse => promiseResponse.json());
   return commentsPromise;
 }
 
