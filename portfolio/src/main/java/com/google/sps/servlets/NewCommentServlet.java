@@ -16,6 +16,8 @@ package com.google.sps.servlets;
 
 import com.google.sps.data.Comment;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -36,11 +38,18 @@ public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/");
+      return;
+    }
+
     String title = request.getParameter("comment-title");
     String author = request.getParameter("name");
     long currentTime = System.currentTimeMillis();
     String comment = request.getParameter("textfield");
     long rating = Long.parseLong(request.getParameter("rating"));
+    String userId = userService.getCurrentUser().getUserId();
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("title", title);
@@ -48,6 +57,7 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("timestamp", currentTime);
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("rating", rating);
+    commentEntity.setProperty("userId", userId);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
