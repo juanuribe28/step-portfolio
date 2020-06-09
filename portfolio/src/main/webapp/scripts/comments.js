@@ -1,4 +1,13 @@
 /**
+ * Disable a submit button when the form is submitted.
+ */
+function disableSubmitButton(event) {
+  let button = event.currentTarget.querySelector(".submit");
+  button.disabled = true;
+  button.value = "Please Wait..."
+}
+
+/**
  * Set the cookie value of an event and call to update the comments.
  */
 function updateCommentsAndCookies(event){
