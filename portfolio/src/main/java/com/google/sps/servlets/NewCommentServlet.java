@@ -18,9 +18,7 @@ import com.google.sps.data.Comment;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.*;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -50,8 +48,9 @@ public class NewCommentServlet extends HttpServlet {
     String comment = request.getParameter("textfield");
     long rating = Long.parseLong(request.getParameter("rating"));
     String userId = userService.getCurrentUser().getUserId();
+    Key userKey = getUserKey(userId);
 
-    Entity commentEntity = new Entity("Comment");
+    Entity commentEntity = new Entity("Comment", userKey);
     commentEntity.setProperty("title", title);
     commentEntity.setProperty("author", author);
     commentEntity.setProperty("timestamp", currentTime);
@@ -63,5 +62,14 @@ public class NewCommentServlet extends HttpServlet {
     datastore.put(commentEntity);
 
     response.sendRedirect("/contact.html");
+  }
+
+  private Key getUserKey(String userId) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("User")
+                      .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, userId));
+    PreparedQuery results = datastore.prepare(query);
+    Entity userEntity = results.asSingleEntity();
+    return userEntity.getKey();
   }
 }
