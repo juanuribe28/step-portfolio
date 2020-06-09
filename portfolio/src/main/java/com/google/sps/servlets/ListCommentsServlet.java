@@ -45,7 +45,8 @@ public class ListCommentsServlet extends HttpServlet {
 
     SortDirection sortingDirection = sortingDirectionString.equals("descending") ? SortDirection.DESCENDING : SortDirection.ASCENDING;
 
-    Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);
+    //  TODO: filter comments by user id. Build entities UserInfo that contain UserId and nickname. Make nickname be default author name. Make email username default nickname.
+    Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);  
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -67,9 +68,10 @@ public class ListCommentsServlet extends HttpServlet {
       long timestamp = (long) entity.getProperty("timestamp");
       long rating = (long) entity.getProperty("rating");
       String comment = (String) entity.getProperty("comment");
+      String userId = (String) entity.getProperty("userId");
       long id = entity.getKey().getId();
 
-      Comment commentObject = new Comment.CommentBuilder(id)
+      Comment commentObject = new Comment.CommentBuilder(id, userId)
       .title(title)
       .author(author)
       .timestamp(timestamp)
