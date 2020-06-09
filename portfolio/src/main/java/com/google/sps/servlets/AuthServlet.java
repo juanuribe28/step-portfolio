@@ -38,10 +38,10 @@ public class AuthServlet extends HttpServlet {
 
     String authUrl;
 
-    if (!loginStatus) {
-      authUrl = userService.createLoginURL("/");  //  TODO: Redirect to the page where the reuqest was made.
+    if (loginStatus) {
+      authUrl = userService.createLogoutURL("/");  //  TODO: Redirect to the page where the request was made.
     } else {
-      authUrl = userService.createLogoutURL("/");  //  TODO: Redirect to the page where the reuqest was made.
+      authUrl = userService.createLoginURL("/");  //  TODO: Redirect to the page where the request was made.
     }
     out.println(String.format("{ \"login\" : %b, \"url\" : \"%s\"}", loginStatus, authUrl));
   }
