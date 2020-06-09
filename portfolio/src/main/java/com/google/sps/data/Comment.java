@@ -10,6 +10,7 @@ public final class Comment {
   private long timestamp;
   private long rating;
   private String comment;
+  private final String userId;
   private final long id;
 
   private Comment(CommentBuilder builder) {
@@ -18,6 +19,7 @@ public final class Comment {
     this.timestamp = builder.timestamp;
     this.rating = builder.rating;
     this.comment = builder.comment;
+    this.userId = builder.userId;
     this.id = builder.id;
   }
 
@@ -41,6 +43,10 @@ public final class Comment {
     return comment;
   }
 
+  public String getUserId() {
+    return userId;
+  }
+
   public long getId() {
     return id;
   }
@@ -53,10 +59,12 @@ public final class Comment {
     private long timestamp;
     private long rating;
     private String comment;
+    private final String userId;
     private final long id;
 
-    public CommentBuilder(long id) {
+    public CommentBuilder(long id, String userId) {
       this.id = id;
+      this.userId = userId;
     }
 
     public CommentBuilder title(String title) {
