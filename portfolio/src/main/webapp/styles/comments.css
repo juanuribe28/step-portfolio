@@ -6,7 +6,8 @@
         [row4-start] "rating-label  rating-field " 1fr   [row4-end]
         [row5-start] "comment-label comment-field" 2fr   [row5-end]
         [row6-start] ".             .            " 0fr   [row6-end]
-        [row7-start] "submit        .            " 1fr   [row7-end]
+        [row7-start] "image-label   image-field  " 1fr   [row7-end]
+        [row8-start] "submit        .            " 1fr   [row8-end]
         / 1fr 3fr;
   gap: 1vh 0.5vw;
   place-items: start stretch;
@@ -67,6 +68,16 @@
 #textfield {
   resize: none;
   grid-area: comment-field;
+}
+
+#image-label {
+  grid-area: image-label;
+  place-self: center center;
+}
+
+#comment-image {
+  grid-area: image-field;
+  place-self: center center;
 }
 
 #submit-comment {
