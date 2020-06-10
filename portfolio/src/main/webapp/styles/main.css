@@ -49,6 +49,14 @@ header{
   text-align: right;
   position: absolute;
 }
+#auth {
+  padding: 0;
+  margin: 0;
+  bottom: 2vh;
+  left: 10vw;
+  text-align: left;
+  position: absolute;
+}
 
 #content {
   margin-left: auto;
