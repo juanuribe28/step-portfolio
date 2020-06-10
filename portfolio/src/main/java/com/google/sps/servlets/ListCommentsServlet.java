@@ -23,6 +23,8 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -42,10 +44,17 @@ public class ListCommentsServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String sortingParameter = request.getParameter("sorting");
     String sortingDirectionString = request.getParameter("dir");
+    String showOnlyUserComments = request.getParameter("mine");
 
     SortDirection sortingDirection = sortingDirectionString.equals("descending") ? SortDirection.DESCENDING : SortDirection.ASCENDING;
 
     Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);
+    if (showOnlyUserComments.equals("true")) {
+      UserService userService = UserServiceFactory.getUserService();
+      String userId = userService.getCurrentUser().getUserId();
+      Query.Filter userFilter = new Query.FilterPredicate("userId", Query.FilterOperator.EQUAL, userId);
+      query = query.setFilter(userFilter);
+    }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);

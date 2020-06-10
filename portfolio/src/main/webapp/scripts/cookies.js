@@ -24,6 +24,16 @@ function setChangeCookie(event) {
 }
 
 /**
+ * Set the cookie value of a checkbox click event.
+ */
+function setCheckboxCookie(event) {
+  let name = event.currentTarget.id;
+  let value = event.currentTarget.checked;
+  setCookie(name, value, 1);
+}
+
+
+/**
  * Get the value of a cookie.
  */
 function getCookie(name) {
@@ -55,5 +65,15 @@ function loadNumericValueCookie(cookieName) {
   cookieValue = getCookie(cookieName);
   if (cookieValue !== "") {
       document.getElementById(cookieName).value = cookieValue;
+  }
+}
+
+/**
+ * Load the cookie state of a checkbox input element to the DOM.
+ */
+function loadCheckboxStateCookie(cookieName) {
+  cookieValue = getCookie(cookieName);
+  if (cookieValue !== "") {
+      document.getElementById(cookieName).checked = (cookieValue === "true");
   }
 }

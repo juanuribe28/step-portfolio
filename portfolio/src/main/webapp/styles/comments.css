@@ -136,8 +136,9 @@
 #comment-header {
   margin: 5vh 0;
   display: grid;
-  grid: [row1-start] "question1 answer1 .       delete" 1fr [row1-end]
-        [row2-start] "question2 select1 select2 delete" 2fr [row2-end]
+  grid: [row1-start] "question1 answer1  .       delete" 1fr [row1-end]
+        [row2-start] "question2 select1  select2 delete" 2fr [row2-end]
+        [row3-start] "question3 checkbox .       delete" 1fr [row3-end]
         / 6fr 1fr 1fr 4fr;
   gap: 0.5vh 0.5vw;
   place-items: center center;
@@ -178,4 +179,13 @@
 .sorting {
   background-color: white;
   color: midnightblue;
+}
+
+#my-comments-label {
+  grid-area: question3;
+  justify-self: end;
+}
+
+#my-comments {
+  grid-area: checkbox;
 }
