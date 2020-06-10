@@ -45,7 +45,6 @@ public class ListCommentsServlet extends HttpServlet {
 
     SortDirection sortingDirection = sortingDirectionString.equals("descending") ? SortDirection.DESCENDING : SortDirection.ASCENDING;
 
-    //  TODO: filter comments by user id. Make nickname be default author name.
     Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);  
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
