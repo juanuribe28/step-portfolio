@@ -52,7 +52,8 @@ public class ListCommentsServlet extends HttpServlet {
     if (showOnlyUserComments.equals("true")) {
       UserService userService = UserServiceFactory.getUserService();
       String userId = userService.getCurrentUser().getUserId();
-      query = query.setFilter(new Query.FilterPredicate("userId", Query.FilterOperator.EQUAL, userId));
+      Query.Filter userFilter = new Query.FilterPredicate("userId", Query.FilterOperator.EQUAL, userId);
+      query = query.setFilter(userFilter);
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
