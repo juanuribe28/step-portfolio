@@ -19,6 +19,8 @@ import com.google.sps.data.Comment;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.blobstore.*;
+import com.google.appengine.api.images.*;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.*;
+import java.net.*;
 
 import com.google.gson.Gson;
 
@@ -49,6 +52,7 @@ public class NewCommentServlet extends HttpServlet {
     long rating = Long.parseLong(request.getParameter("rating"));
     String userId = userService.getCurrentUser().getUserId();
     Key userKey = getUserKey(userId);
+    String imageUrl = getUploadedFileUrl(request, "comment-image");
 
     Entity commentEntity = new Entity("Comment", userKey);
     commentEntity.setProperty("title", title);
@@ -57,6 +61,7 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("rating", rating);
     commentEntity.setProperty("userId", userId);
+    commentEntity.setProperty("imageUrl", imageUrl);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
@@ -71,5 +76,43 @@ public class NewCommentServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
     Entity userEntity = results.asSingleEntity();
     return userEntity.getKey();
+  }
+
+  /** Returns a URL that points to the uploaded file, or null if the user didn't upload a file. */
+  private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get(formInputElementName);
+
+    // User submitted form without selecting a file, so we can't get a URL. (dev server)
+    if (blobKeys == null || blobKeys.isEmpty()) {
+      return null;
+    }
+
+    // Our form only contains a single file input, so get the first index.
+    BlobKey blobKey = blobKeys.get(0);
+
+    // User submitted form without selecting a file, so we can't get a URL. (live server)
+    BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
+    if (blobInfo.getSize() == 0) {
+      blobstoreService.delete(blobKey);
+      return null;
+    }
+
+    // We could check the validity of the file here, e.g. to make sure it's an image file
+    // https://stackoverflow.com/q/10779564/873165
+
+    // Use ImagesService to get a URL that points to the uploaded file.
+    ImagesService imagesService = ImagesServiceFactory.getImagesService();
+    ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+
+    // To support running in Google Cloud Shell with AppEngine's devserver, we must use the relative
+    // path to the image, rather than the path returned by imagesService which contains a host.
+    try {
+      URL url = new URL(imagesService.getServingUrl(options));
+      return url.getPath();
+    } catch (MalformedURLException e) {
+      return imagesService.getServingUrl(options);
+    }
   }
 }
