@@ -1,0 +1,29 @@
+{{#login}}
+  <form id="comment-form" action="/new-comment" method="POST">
+    <h2 id="header">Leave your comment</h2>
+    <label for="comment-title" id="title-label">Title:</label>
+    <input id="comment-title" name="comment-title" type="text">
+    <label for="name" id="name-label">Name:</label>
+    <input id="name" name="name" type="text">
+    <label for="rating" id="rating-label">Rating:</label>
+    <div id="stars-rating">
+      <input type="radio" name="rating" id="star5-input" class="hide" value="5">
+      <label for="star5-input"><i class="material-icons">star_border</i></label>
+      <input type="radio" name="rating" id="star4-input" class="hide" value="4">
+      <label for="star4-input"><i class="material-icons">star_border</i></label>
+      <input type="radio" name="rating" id="star3-input" class="hide" value="3">
+      <label for="star3-input"><i class="material-icons">star_border</i></label>
+      <input type="radio" name="rating" id="star2-input" class="hide" value="2">
+      <label for="star2-input"><i class="material-icons">star_border</i></label>
+      <input type="radio" name="rating" id="star1-input" class="hide" value="1">
+      <label for="star1-input"><i class="material-icons">star_border</i></label>
+      <input type="radio" name="rating" id="star0-input" class="hide" value="0" checked>
+    </div>
+    <label for="textfield" id="comment-label">Comment:</label>
+    <textarea id="textfield" name="textfield" rows="10" cols="50" placeholder="What are you thinking???"></textarea>
+    <input type="submit" id="submit-comment" value="Submit Comment">
+  </form>
+{{/login}}
+{{^login}}
+  <h2 id="header"><a href="{{url}}">Log-in</a> to leave a comment</h2>
+{{/login}}
