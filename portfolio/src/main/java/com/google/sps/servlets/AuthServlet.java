@@ -54,7 +54,7 @@ public class AuthServlet extends HttpServlet {
   private Entity makeUserEntity(UserService userService) {
     String userId = userService.getCurrentUser().getUserId();
     String userEmail = userService.getCurrentUser().getEmail();
-    String username = userEmail.split("@", 0)[0];  //  TODO: Let the user choose their username.
+    String username = userEmail.split("@", 0)[0];  // TODO: Let the user choose their username.
 
     Entity userEntity = new Entity("User", userId);
     userEntity.setProperty("id", userId);
