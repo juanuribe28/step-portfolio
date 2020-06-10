@@ -37,9 +37,9 @@ public class AuthServlet extends HttpServlet {
     String authUrl;
 
     if (loginStatus) {
-      authUrl = userService.createLogoutURL("/");  //  TODO: Redirect to the page where the request was made.
+      authUrl = userService.createLogoutURL("/");  // TODO: Redirect to the page where the request was made.
     } else {
-      authUrl = userService.createLoginURL("/");  //  TODO: Redirect to the page where the request was made.
+      authUrl = userService.createLoginURL("/");  // TODO: Redirect to the page where the request was made.
     }
     out.println(String.format("{ \"login\" : %b, \"url\" : \"%s\"}", loginStatus, authUrl));
   }
