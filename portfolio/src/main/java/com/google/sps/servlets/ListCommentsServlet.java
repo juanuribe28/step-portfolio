@@ -45,7 +45,7 @@ public class ListCommentsServlet extends HttpServlet {
 
     SortDirection sortingDirection = sortingDirectionString.equals("descending") ? SortDirection.DESCENDING : SortDirection.ASCENDING;
 
-    Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);  
+    Query query = new Query("Comment").addSort(sortingParameter, sortingDirection);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
