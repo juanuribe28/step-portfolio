@@ -46,7 +46,9 @@ public class AuthServlet extends HttpServlet {
     } else {
       authUrl = userService.createLoginURL("/");  // TODO: Redirect to the page where the request was made.
     }
-    out.println(String.format("{ \"login\" : %b, \"url\" : \"%s\", \"username\" : \"%s\"}", loginStatus, authUrl, username));
+    String jsonStringTemplate = "{ \"login\" : %b, \"url\" : \"%s\", \"username\" : \"%s\"}";
+    String jsonString = String.format(jsonStringTemplate, loginStatus, authUrl, username);
+    out.println(jsonString);
   }
 
   private Entity makeUserEntity(UserService userService) {
