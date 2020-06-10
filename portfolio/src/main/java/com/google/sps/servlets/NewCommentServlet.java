@@ -16,9 +16,9 @@ package com.google.sps.servlets;
 
 import com.google.sps.data.Comment;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.api.datastore.*;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -36,22 +36,40 @@ public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    if (!userService.isUserLoggedIn()) {
+      response.sendRedirect("/");
+      return;
+    }
+
     String title = request.getParameter("comment-title");
     String author = request.getParameter("name");
     long currentTime = System.currentTimeMillis();
     String comment = request.getParameter("textfield");
     long rating = Long.parseLong(request.getParameter("rating"));
+    String userId = userService.getCurrentUser().getUserId();
+    Key userKey = getUserKey(userId);
 
-    Entity commentEntity = new Entity("Comment");
+    Entity commentEntity = new Entity("Comment", userKey);
     commentEntity.setProperty("title", title);
     commentEntity.setProperty("author", author);
     commentEntity.setProperty("timestamp", currentTime);
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("rating", rating);
+    commentEntity.setProperty("userId", userId);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
     response.sendRedirect("/contact.html");
+  }
+
+  private Key getUserKey(String userId) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query.Filter userFilter = new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, userId);
+    Query query = new Query("User").setFilter(userFilter);
+    PreparedQuery results = datastore.prepare(query);
+    Entity userEntity = results.asSingleEntity();
+    return userEntity.getKey();
   }
 }

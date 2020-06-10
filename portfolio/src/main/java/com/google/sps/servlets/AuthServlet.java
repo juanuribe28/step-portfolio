@@ -35,12 +35,32 @@ public class AuthServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     boolean loginStatus = userService.isUserLoggedIn();
     String authUrl;
+    String username = null;
 
     if (loginStatus) {
       authUrl = userService.createLogoutURL("/");  // TODO: Redirect to the page where the request was made.
+      Entity userEntity = makeUserEntity(userService);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      username = (String) userEntity.getProperty("username");
+      datastore.put(userEntity);
     } else {
       authUrl = userService.createLoginURL("/");  // TODO: Redirect to the page where the request was made.
     }
-    out.println(String.format("{ \"login\" : %b, \"url\" : \"%s\"}", loginStatus, authUrl));
+    String jsonStringTemplate = "{ \"login\" : %b, \"url\" : \"%s\", \"username\" : \"%s\"}";
+    String jsonString = String.format(jsonStringTemplate, loginStatus, authUrl, username);
+    out.println(jsonString);
+  }
+
+  private Entity makeUserEntity(UserService userService) {
+    String userId = userService.getCurrentUser().getUserId();
+    String userEmail = userService.getCurrentUser().getEmail();
+    String username = userEmail.split("@", 0)[0];  // TODO: Let the user choose their username.
+
+    Entity userEntity = new Entity("User", userId);
+    userEntity.setProperty("id", userId);
+    userEntity.setProperty("email", userEmail);
+    userEntity.setProperty("username", username);
+
+    return userEntity;
   }
 }

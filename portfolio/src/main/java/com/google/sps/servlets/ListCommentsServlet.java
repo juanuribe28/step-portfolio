@@ -67,9 +67,10 @@ public class ListCommentsServlet extends HttpServlet {
       long timestamp = (long) entity.getProperty("timestamp");
       long rating = (long) entity.getProperty("rating");
       String comment = (String) entity.getProperty("comment");
+      String userId = (String) entity.getProperty("userId");
       long id = entity.getKey().getId();
 
-      Comment commentObject = new Comment.CommentBuilder(id)
+      Comment commentObject = new Comment.CommentBuilder(id, userId)
       .title(title)
       .author(author)
       .timestamp(timestamp)
