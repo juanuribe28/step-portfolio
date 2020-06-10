@@ -66,8 +66,8 @@ public class NewCommentServlet extends HttpServlet {
 
   private Key getUserKey(String userId) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("User")
-                      .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, userId));
+    Query.Filter userFilter = new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, userId);
+    Query query = new Query("User").setFilter(userFilter);
     PreparedQuery results = datastore.prepare(query);
     Entity userEntity = results.asSingleEntity();
     return userEntity.getKey();
