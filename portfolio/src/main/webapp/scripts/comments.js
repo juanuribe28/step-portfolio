@@ -101,7 +101,7 @@ function scoreToColor(score) {
 
 /**
  * Returns an integer index by linearly rescaling the scores values in the range (-1, 1),
- * to values integers in the range [0, 4]
+ * to integers in the range [0, 4]
  */
 function scoreToIndex(score) {
   let index = Math.floor((score+1)*2.5);
