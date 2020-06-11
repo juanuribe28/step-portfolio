@@ -129,7 +129,7 @@ public class NewCommentServlet extends HttpServlet {
     return blobKey;
   }
 
-  /** Returns the sentiment score of the given comment, or 0 if the user didn't wrote a comment. */
+  /** Returns the sentiment score of the given comment, or 0 if the user didn't write a comment. */
   private float getSentimentScore(String comment) throws IOException {
     if (comment == null || comment.equals("")) {
       return 0;
