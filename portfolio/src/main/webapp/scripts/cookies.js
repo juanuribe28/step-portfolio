@@ -1,7 +1,7 @@
 const HOURS_PER_DAY = 24;
 const MINUTES_PER_HOUR = 60;
 const SECONDS_PER_MINUTE = 60;
-const SECONDS_PER_DAY = SECONDS_PER_MINUTE * SECONDS_PER_DAY * HOURS_PER_DAY;
+const SECONDS_PER_DAY = HOURS_PER_DAY*MINUTES_PER_HOUR*SECONDS_PER_MINUTE;
 const MILLISECONDS_PER_SECOND = 1000;
 
 
@@ -22,6 +22,16 @@ function setChangeCookie(event) {
   let value = event.currentTarget.value;
   setCookie(name, value, 1);
 }
+
+/**
+ * Set the cookie value of a checkbox click event.
+ */
+function setCheckboxCookie(event) {
+  let name = event.currentTarget.id;
+  let value = event.currentTarget.checked;
+  setCookie(name, value, 1);
+}
+
 
 /**
  * Get the value of a cookie.
@@ -55,5 +65,15 @@ function loadNumericValueCookie(cookieName) {
   cookieValue = getCookie(cookieName);
   if (cookieValue !== "") {
       document.getElementById(cookieName).value = cookieValue;
+  }
+}
+
+/**
+ * Load the cookie state of a checkbox input element to the DOM.
+ */
+function loadCheckboxStateCookie(cookieName) {
+  cookieValue = getCookie(cookieName);
+  if (cookieValue !== "") {
+      document.getElementById(cookieName).checked = (cookieValue === "true");
   }
 }

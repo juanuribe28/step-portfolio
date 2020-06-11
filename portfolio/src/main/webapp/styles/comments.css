@@ -6,7 +6,8 @@
         [row4-start] "rating-label  rating-field " 1fr   [row4-end]
         [row5-start] "comment-label comment-field" 2fr   [row5-end]
         [row6-start] ".             .            " 0fr   [row6-end]
-        [row7-start] "submit        .            " 1fr   [row7-end]
+        [row7-start] "image-label   image-field  " 1fr   [row7-end]
+        [row8-start] "submit        .            " 1fr   [row8-end]
         / 1fr 3fr;
   gap: 1vh 0.5vw;
   place-items: start stretch;
@@ -69,6 +70,16 @@
   grid-area: comment-field;
 }
 
+#image-label {
+  grid-area: image-label;
+  place-self: center center;
+}
+
+#comment-image {
+  grid-area: image-field;
+  place-self: center center;
+}
+
 #submit-comment {
   background-color: midnightblue;
   text-align: center;
@@ -86,11 +97,11 @@
   padding: 2vh 1vw;
   margin: 2vh auto;
   display: grid;
-  grid: [row1-start] "title   delete " 1fr  [row1-end]
-        [row2-start] "rating  .      " 1fr  [row2-end]
-        [row3-start] "author  author " 1fr  [row3-end]
-        [row4-start] "comment comment" auto [row4-end]
-        / 12fr 1fr;
+  grid: [row1-start] "image   title   delete " 1fr  [row1-end]
+        [row2-start] "image   rating  .      " 1fr  [row2-end]
+        [row3-start] "image   author  author " 1fr  [row3-end]
+        [row4-start] "comment comment comment" auto [row4-end]
+        / 3fr 9fr 1fr;
   gap: 0.5vh 0.5vw;
   place-items: start start;
 }
@@ -118,6 +129,15 @@
   margin: 0;
 }
 
+.comment-image-section {
+  grid-area: image;
+  place-self: stretch stretch;
+}
+
+.profile-image {
+  width: 100%;
+}
+
 .comment {
   grid-area: comment;
 }
@@ -125,8 +145,9 @@
 #comment-header {
   margin: 5vh 0;
   display: grid;
-  grid: [row1-start] "question1 answer1 .       delete" 1fr [row1-end]
-        [row2-start] "question2 select1 select2 delete" 2fr [row2-end]
+  grid: [row1-start] "question1 answer1  .       delete" 1fr [row1-end]
+        [row2-start] "question2 select1  select2 delete" 2fr [row2-end]
+        [row3-start] "question3 checkbox .       delete" 1fr [row3-end]
         / 6fr 1fr 1fr 4fr;
   gap: 0.5vh 0.5vw;
   place-items: center center;
@@ -167,4 +188,13 @@
 .sorting {
   background-color: white;
   color: midnightblue;
+}
+
+#my-comments-label {
+  grid-area: question3;
+  justify-self: end;
+}
+
+#my-comments {
+  grid-area: checkbox;
 }

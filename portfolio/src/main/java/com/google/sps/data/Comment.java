@@ -10,6 +10,9 @@ public final class Comment {
   private long timestamp;
   private long rating;
   private String comment;
+  private String imageUrl;
+  private double sentimentScore;
+  private final String userId;
   private final long id;
 
   private Comment(CommentBuilder builder) {
@@ -18,6 +21,9 @@ public final class Comment {
     this.timestamp = builder.timestamp;
     this.rating = builder.rating;
     this.comment = builder.comment;
+    this.imageUrl = builder.imageUrl;
+    this.sentimentScore = builder.sentimentScore;
+    this.userId = builder.userId;
     this.id = builder.id;
   }
 
@@ -37,8 +43,20 @@ public final class Comment {
     return rating;
   }
 
+  public double getSentimentScore() {
+    return sentimentScore;
+  }
+
   public String getComment() {
     return comment;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public String getUserId() {
+    return userId;
   }
 
   public long getId() {
@@ -53,10 +71,14 @@ public final class Comment {
     private long timestamp;
     private long rating;
     private String comment;
+    private String imageUrl;
+    private double sentimentScore;
+    private final String userId;
     private final long id;
 
-    public CommentBuilder(long id) {
+    public CommentBuilder(long id, String userId) {
       this.id = id;
+      this.userId = userId;
     }
 
     public CommentBuilder title(String title) {
@@ -74,6 +96,11 @@ public final class Comment {
       return this;
     }
 
+    public CommentBuilder imageUrl(String imageUrl) {
+      this.imageUrl = imageUrl;
+      return this;
+    }
+
     public CommentBuilder timestamp(long timestamp) {
       this.timestamp = timestamp;
       return this;
@@ -81,6 +108,11 @@ public final class Comment {
 
     public CommentBuilder rating(long rating) {
       this.rating = rating;
+      return this;
+    }
+    
+    public CommentBuilder sentimentScore(double sentimentScore) {
+      this.sentimentScore = sentimentScore;
       return this;
     }
 

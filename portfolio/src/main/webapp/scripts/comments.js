@@ -22,24 +22,25 @@ function updateCommentSection() {
   let nComments = nCommentsInput.value;
   let sortingParam = sortingParamInput.value;
   let sortingDir = sortingDirInput.value;
-  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir);
+  let onlyMyComments = myCommentsCheckbox.checked;
+  loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir, onlyMyComments);
 }
 
 /**
  * Load comments section.
  */
-function loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir){
+function loadCommentsSection(templatePromise, nComments, sortingParam, sortingDir, onlyMyComments){
   emptyComments();
-  loadNComments(templatePromise, nComments, sortingParam, sortingDir)
+  loadNComments(templatePromise, nComments, sortingParam, sortingDir, onlyMyComments)
   .then(addEventListenerComments);
 }
 
 /**
  * Loads n number of comments to the Dom based on the given template promise.
  */
-function loadNComments(templatePromise, nComments, sortingParam, sortingDir){
+function loadNComments(templatePromise, nComments, sortingParam, sortingDir, onlyMyComments){
   let promise = templatePromise.then((template) => {
-    promise = loadComments(nComments, sortingParam, sortingDir).then((commentObjs) => {
+    promise = loadComments(nComments, sortingParam, sortingDir, onlyMyComments).then((commentObjs) => {
       renderList(template, commentObjs, '#comments');
     });
     return promise;
@@ -48,20 +49,18 @@ function loadNComments(templatePromise, nComments, sortingParam, sortingDir){
 }
 
 /**
- * Loads the template from the url.
- * Returns a promise of the template.
- */
-function loadTemplate(url) {
-  const templatePromise = fetch(url).then(promiseResponse => promiseResponse.text());
-  return templatePromise;
-}
-
-/**
  * Loads the comments from the server.
  * Returns a promise of the comments.
  */
-function loadComments(nComments, sortingParam, sortingDir) {
-  const commentsPromise = fetch(`/list-comments?nComments=${nComments}&sorting=${sortingParam}&dir=${sortingDir}`).then(promiseResponse => promiseResponse.json());
+function loadComments(nComments, sortingParam, sortingDir, onlyMyComments) {
+  const nCommentsQuery = `nComments=${nComments}`;
+  const sortingParamQuery = `sorting=${sortingParam}`;
+  const sortingDirQuery = `dir=${sortingDir}`;
+  const myComentsQuery = `mine=${onlyMyComments}`;
+  const queryParams = [nCommentsQuery, sortingParamQuery, sortingDirQuery, myComentsQuery];
+  const queryParamsString = queryParams.join('&');
+  const queryString = `/list-comments?${queryParamsString}`;
+  const commentsPromise = fetch(queryString).then(promiseResponse => promiseResponse.json());
   return commentsPromise;
 }
 
