@@ -4,4 +4,9 @@
   <p class="author">{{date}} - By {{author}}{{^author}}[No Author]{{/author}}</p>
   <p class="comment">{{comment}}{{^comment}}[No Body]{{/comment}}</p>
   <p class="rating"><i class="material-icons">{{stars}}</i></p>
+  <div class="comment-image-section">
+    <a href="{{imageUrl}}{{^imageUrl}}/images/profile.png{{/imageUrl}}">
+      <img class="profile-image" src="{{imageUrl}}{{^imageUrl}}/images/profile.png{{/imageUrl}}">
+    </a>
+  </div>
 </div>
