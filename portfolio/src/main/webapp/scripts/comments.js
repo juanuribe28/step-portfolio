@@ -100,10 +100,12 @@ function scoreToColor(score) {
 }
 
 /**
- * Returns an inteneger index between 0 and 4 (both inclusive).
+ * Returns an integer index by linearly rescaling the scores values in the range (-1, 1),
+ * to values integers in the range [0, 4]
  */
 function scoreToIndex(score) {
   let index = Math.floor((score+1)*2.5);
+  index = min(4, index);
   return index;
 }
 
