@@ -63,6 +63,7 @@ function renderList(template, listObjs, parentId) {
   listObjs.forEach((obj) => {
     obj.date = timestampToDateString(obj.timestamp);
     obj.stars = 'star_border'.repeat(obj.rating);
+    obj.sentiment = scoreToSentiment(obj.sentimentScore);
     let html = Mustache.render(template, obj);
     $(parentId).prepend(html);
   });
@@ -76,6 +77,16 @@ function timestampToDateString(timestamp) {
   dateString = date.toLocaleString();
   return dateString;
 }
+
+/**
+ * Returns a sentiment description of the given sentiment score.
+ */
+function scoreToSentiment(score) {
+  const sentiments = ['very_dissatisfied', 'dissatisfied', 'neutral', 'satisfied', 'very_satisfied'];
+  let index = Math.floor((score+1)*2.5);
+  return sentiments[index];
+}
+
 
 /**
  * Empties the comment section in the DOM.
