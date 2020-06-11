@@ -89,7 +89,7 @@ public class NewCommentServlet extends HttpServlet {
       return null;
     }
 
-    // TODO: Investigate options for image validation (https://stackoverflow.com/q/10779564/873165)
+    // TODO: Investigate options for image validation (https://stackoverflow.com/q/10779564/873165).
 
     // Use ImagesService to get a URL that points to the uploaded file.
     ImagesService imagesService = ImagesServiceFactory.getImagesService();
