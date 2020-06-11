@@ -64,8 +64,11 @@ function renderList(template, listObjs, parentId) {
     obj.date = timestampToDateString(obj.timestamp);
     obj.stars = 'star_border'.repeat(obj.rating);
     obj.sentiment = scoreToSentiment(obj.sentimentScore);
+    color = scoreToColor(obj.sentimentScore);
     let html = Mustache.render(template, obj);
     $(parentId).prepend(html);
+    let sentimentId = `#${obj.id} > .sentiment-score`;
+    $(sentimentId).css('color', color)
   });
 }
 
@@ -83,10 +86,26 @@ function timestampToDateString(timestamp) {
  */
 function scoreToSentiment(score) {
   const sentiments = ['very_dissatisfied', 'dissatisfied', 'neutral', 'satisfied', 'very_satisfied'];
-  let index = Math.floor((score+1)*2.5);
+  let index = scoreToIndex(score);
   return sentiments[index];
 }
 
+/**
+ * Returns a color for the given sentiment score.
+ */
+function scoreToColor(score) {
+  const colors = ['#B22222', '#C66321', '#DAA520', '#7EDD21', '#228B22'];
+  let index = scoreToIndex(score);
+  return colors[index];
+}
+
+/**
+ * Returns an inteneger index between 0 and 4 (both inclusive).
+ */
+function scoreToIndex(score) {
+  let index = Math.floor((score+1)*2.5);
+  return index;
+}
 
 /**
  * Empties the comment section in the DOM.
