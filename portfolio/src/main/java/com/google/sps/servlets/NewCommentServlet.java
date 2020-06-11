@@ -22,6 +22,10 @@ import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.blobstore.*;
 import com.google.appengine.api.images.*;
 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,6 +57,7 @@ public class NewCommentServlet extends HttpServlet {
     String userId = userService.getCurrentUser().getUserId();
     Key userKey = getUserKey(userId);
     String imageUrl = getUploadedFileUrl(request, "comment-image");
+    float sentimentScore = getSentimentScore(comment);
 
     Entity commentEntity = new Entity("Comment", userKey);
     commentEntity.setProperty("title", title);
@@ -62,6 +67,7 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("rating", rating);
     commentEntity.setProperty("userId", userId);
     commentEntity.setProperty("imageUrl", imageUrl);
+    commentEntity.setProperty("sentimentScore", sentimentScore);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
@@ -121,5 +127,21 @@ public class NewCommentServlet extends HttpServlet {
       return null;
     }
     return blobKey;
+  }
+
+  /** Returns the sentiment score of the given comment, or 0 if the user didn't write a comment. */
+  private float getSentimentScore(String comment) throws IOException {
+    if (comment == null || comment.equals("")) {
+      return 0;
+    }
+    Document commentDoc = Document.newBuilder()
+                   .setContent(comment)
+                   .setType(Document.Type.PLAIN_TEXT)
+                   .build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(commentDoc).getDocumentSentiment();
+    float score = sentiment.getScore();
+    languageService.close();
+    return score;
   }
 }

@@ -78,6 +78,7 @@ public class ListCommentsServlet extends HttpServlet {
       String comment = (String) entity.getProperty("comment");
       String imageUrl = (String) entity.getProperty("imageUrl");
       String userId = (String) entity.getProperty("userId");
+      double sentimentScore = (double) entity.getProperty("sentimentScore");
       long id = entity.getKey().getId();
 
       Comment commentObject = new Comment.CommentBuilder(id, userId)
@@ -87,6 +88,7 @@ public class ListCommentsServlet extends HttpServlet {
       .rating(rating)
       .comment(comment)
       .imageUrl(imageUrl)
+      .sentimentScore(sentimentScore)
       .build();
       
       commentList.add(commentObject);

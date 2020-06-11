@@ -11,6 +11,7 @@ public final class Comment {
   private long rating;
   private String comment;
   private String imageUrl;
+  private double sentimentScore;
   private final String userId;
   private final long id;
 
@@ -21,6 +22,7 @@ public final class Comment {
     this.rating = builder.rating;
     this.comment = builder.comment;
     this.imageUrl = builder.imageUrl;
+    this.sentimentScore = builder.sentimentScore;
     this.userId = builder.userId;
     this.id = builder.id;
   }
@@ -39,6 +41,10 @@ public final class Comment {
 
   public long getRating() {
     return rating;
+  }
+
+  public double getSentimentScore() {
+    return sentimentScore;
   }
 
   public String getComment() {
@@ -66,6 +72,7 @@ public final class Comment {
     private long rating;
     private String comment;
     private String imageUrl;
+    private double sentimentScore;
     private final String userId;
     private final long id;
 
@@ -101,6 +108,11 @@ public final class Comment {
 
     public CommentBuilder rating(long rating) {
       this.rating = rating;
+      return this;
+    }
+    
+    public CommentBuilder sentimentScore(double sentimentScore) {
+      this.sentimentScore = sentimentScore;
       return this;
     }
 
