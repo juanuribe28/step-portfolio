@@ -97,10 +97,10 @@
   padding: 2vh 1vw;
   margin: 2vh auto;
   display: grid;
-  grid: [row1-start] "image   title   title     delete " 1fr  [row1-end]
-        [row2-start] "image   rating  sentiment .      " 1fr  [row2-end]
-        [row3-start] "image   author  author    author " 1fr  [row3-end]
-        [row4-start] "comment comment comment   comment" auto [row4-end]
+  grid: [row1-start] "image title   title     delete " 1fr  [row1-end]
+        [row2-start] "image rating  sentiment .      " 1fr  [row2-end]
+        [row3-start] "image author  author    author " 1fr  [row3-end]
+        [row4-start] "tags  comment comment   comment" auto [row4-end]
         / 3fr 3fr 6fr 1fr;
   gap: 0.5vh 0.5vw;
   place-items: start start;
@@ -150,6 +150,24 @@
 
 .sentiment-icon {
   font-size: 2em;
+}
+
+.image-labels  {
+  grid-area: tags;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+}
+
+.image-labels > li {
+  background-color: midnightblue;
+  color: white;
+  font-size: 70%;
+  font-weight: bold;
+  padding: 0.3em;
+  margin: 0.3em;
+  border-radius: 0.2em;
 }
 
 #comment-header {
