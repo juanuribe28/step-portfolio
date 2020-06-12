@@ -10,7 +10,7 @@ public final class Comment {
   private long timestamp;
   private long rating;
   private String comment;
-  private String imageUrl;
+  private String blobKeyString;
   private double sentimentScore;
   private final String userId;
   private final long id;
@@ -21,7 +21,7 @@ public final class Comment {
     this.timestamp = builder.timestamp;
     this.rating = builder.rating;
     this.comment = builder.comment;
-    this.imageUrl = builder.imageUrl;
+    this.blobKeyString = builder.blobKeyString;
     this.sentimentScore = builder.sentimentScore;
     this.userId = builder.userId;
     this.id = builder.id;
@@ -51,8 +51,8 @@ public final class Comment {
     return comment;
   }
 
-  public String getImageUrl() {
-    return imageUrl;
+  public String getBlobKeyString() {
+    return blobKeyString;
   }
 
   public String getUserId() {
@@ -71,7 +71,7 @@ public final class Comment {
     private long timestamp;
     private long rating;
     private String comment;
-    private String imageUrl;
+    private String blobKeyString;
     private double sentimentScore;
     private final String userId;
     private final long id;
@@ -96,8 +96,8 @@ public final class Comment {
       return this;
     }
 
-    public CommentBuilder imageUrl(String imageUrl) {
-      this.imageUrl = imageUrl;
+    public CommentBuilder blobKeyString(String blobKeyString) {
+      this.blobKeyString = blobKeyString;
       return this;
     }
 

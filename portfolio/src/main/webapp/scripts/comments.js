@@ -114,7 +114,7 @@ function scoreToColor(score) {
  */
 function scoreToIndex(score) {
   let index = Math.floor((score+1)*2.5);
-  index = min(4, index);
+  index = Math.min(4, index);
   return index;
 }
 
