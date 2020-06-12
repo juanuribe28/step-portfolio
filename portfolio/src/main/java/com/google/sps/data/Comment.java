@@ -1,5 +1,6 @@
 package com.google.sps.data;
 
+import com.google.sps.data.Label;
 import java.util.*;
 
 /** Class containing user comments */
@@ -12,6 +13,7 @@ public final class Comment {
   private String comment;
   private String blobKeyString;
   private double sentimentScore;
+  private List<Label> imageLabels;
   private final String userId;
   private final long id;
 
@@ -23,6 +25,7 @@ public final class Comment {
     this.comment = builder.comment;
     this.blobKeyString = builder.blobKeyString;
     this.sentimentScore = builder.sentimentScore;
+    this.imageLabels = builder.imageLabels;
     this.userId = builder.userId;
     this.id = builder.id;
   }
@@ -55,6 +58,10 @@ public final class Comment {
     return blobKeyString;
   }
 
+  public List<Label> getImageLabels() {
+    return imageLabels;
+  }
+
   public String getUserId() {
     return userId;
   }
@@ -73,6 +80,7 @@ public final class Comment {
     private String comment;
     private String blobKeyString;
     private double sentimentScore;
+    private List<Label> imageLabels;
     private final String userId;
     private final long id;
 
@@ -113,6 +121,11 @@ public final class Comment {
     
     public CommentBuilder sentimentScore(double sentimentScore) {
       this.sentimentScore = sentimentScore;
+      return this;
+    }
+
+    public CommentBuilder imageLabels(List<Label> imageLabels) {
+      this.imageLabels = imageLabels;
       return this;
     }
 
