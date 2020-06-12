@@ -72,8 +72,12 @@ function renderList(template, listObjs, parentId) {
   listObjs.forEach((obj) => {
     obj.date = timestampToDateString(obj.timestamp);
     obj.stars = 'star_border'.repeat(obj.rating);
+    obj.sentiment = scoreToSentiment(obj.sentimentScore);
+    color = scoreToColor(obj.sentimentScore);
     let html = Mustache.render(template, obj);
     $(parentId).prepend(html);
+    let sentimentId = `#${obj.id} > .sentiment-score`;
+    $(sentimentId).css('color', color)
   });
 }
 
@@ -84,6 +88,34 @@ function timestampToDateString(timestamp) {
   let date = new Date(timestamp);
   dateString = date.toLocaleString();
   return dateString;
+}
+
+/**
+ * Returns a sentiment description of the given sentiment score.
+ */
+function scoreToSentiment(score) {
+  const sentiments = ['very_dissatisfied', 'dissatisfied', 'neutral', 'satisfied', 'very_satisfied'];
+  let index = scoreToIndex(score);
+  return sentiments[index];
+}
+
+/**
+ * Returns a color for the given sentiment score.
+ */
+function scoreToColor(score) {
+  const colors = ['#B22222', '#C66321', '#DAA520', '#7EDD21', '#228B22'];
+  let index = scoreToIndex(score);
+  return colors[index];
+}
+
+/**
+ * Returns an integer index by linearly rescaling the scores values in the range (-1, 1),
+ * to integers in the range [0, 4]
+ */
+function scoreToIndex(score) {
+  let index = Math.floor((score+1)*2.5);
+  index = min(4, index);
+  return index;
 }
 
 /**
