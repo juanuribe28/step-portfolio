@@ -56,7 +56,7 @@ public class NewCommentServlet extends HttpServlet {
     long rating = Long.parseLong(request.getParameter("rating"));
     String userId = userService.getCurrentUser().getUserId();
     Key userKey = getUserKey(userId);
-    BlobKey blobKey = getBlobKey(request, "comment-image");
+    String blobKeyString = getBlobKeyString(request, "comment-image");
     float sentimentScore = getSentimentScore(comment);
 
     Entity commentEntity = new Entity("Comment", userKey);
@@ -66,7 +66,7 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("rating", rating);
     commentEntity.setProperty("userId", userId);
-    commentEntity.setProperty("blobKey", blobKey);
+    commentEntity.setProperty("blobKeyString", blobKeyString);
     commentEntity.setProperty("sentimentScore", sentimentScore);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -85,7 +85,7 @@ public class NewCommentServlet extends HttpServlet {
   }
 
   /** Returns a URL that points to the uploaded file, or null if the user didn't upload a file. */
-  private BlobKey getBlobKey(HttpServletRequest request, String formInputElementName) {
+  private String getBlobKeyString(HttpServletRequest request, String formInputElementName) {
     // TODO: Investigate options for image validation (https://stackoverflow.com/q/10779564/873165).
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
@@ -106,7 +106,7 @@ public class NewCommentServlet extends HttpServlet {
       return null;
     }
 
-    return blobKey;
+    return blobKey.getKeyString();
   }
 
 
