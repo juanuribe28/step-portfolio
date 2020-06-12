@@ -25,6 +25,9 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -76,7 +79,7 @@ public class ListCommentsServlet extends HttpServlet {
       long timestamp = (long) entity.getProperty("timestamp");
       long rating = (long) entity.getProperty("rating");
       String comment = (String) entity.getProperty("comment");
-      String imageUrl = (String) entity.getProperty("imageUrl");
+      BlobKey blobKey = (BlobKey) entity.getProperty("blobKey");
       String userId = (String) entity.getProperty("userId");
       double sentimentScore = (double) entity.getProperty("sentimentScore");
       long id = entity.getKey().getId();
@@ -87,7 +90,7 @@ public class ListCommentsServlet extends HttpServlet {
       .timestamp(timestamp)
       .rating(rating)
       .comment(comment)
-      .imageUrl(imageUrl)
+      .blobKeyString(blobKey.getKeyString())
       .sentimentScore(sentimentScore)
       .build();
       
