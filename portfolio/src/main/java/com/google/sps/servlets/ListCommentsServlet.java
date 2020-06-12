@@ -79,7 +79,7 @@ public class ListCommentsServlet extends HttpServlet {
       long timestamp = (long) entity.getProperty("timestamp");
       long rating = (long) entity.getProperty("rating");
       String comment = (String) entity.getProperty("comment");
-      BlobKey blobKey = (BlobKey) entity.getProperty("blobKey");
+      String blobKeyString = (String) entity.getProperty("blobKeyString");
       String userId = (String) entity.getProperty("userId");
       double sentimentScore = (double) entity.getProperty("sentimentScore");
       long id = entity.getKey().getId();
@@ -90,7 +90,7 @@ public class ListCommentsServlet extends HttpServlet {
       .timestamp(timestamp)
       .rating(rating)
       .comment(comment)
-      .blobKeyString(blobKey.getKeyString())
+      .blobKeyString(blobKeyString)
       .sentimentScore(sentimentScore)
       .build();
       
