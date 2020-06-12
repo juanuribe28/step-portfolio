@@ -56,7 +56,7 @@ public class NewCommentServlet extends HttpServlet {
     long rating = Long.parseLong(request.getParameter("rating"));
     String userId = userService.getCurrentUser().getUserId();
     Key userKey = getUserKey(userId);
-    String imageUrl = getUploadedFileUrl(request, "comment-image");
+    BlobKey blobKey = getBlobKey(request, "comment-image");
     float sentimentScore = getSentimentScore(comment);
 
     Entity commentEntity = new Entity("Comment", userKey);
@@ -66,7 +66,7 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("rating", rating);
     commentEntity.setProperty("userId", userId);
-    commentEntity.setProperty("imageUrl", imageUrl);
+    commentEntity.setProperty("blobKey", blobKey);
     commentEntity.setProperty("sentimentScore", sentimentScore);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -85,33 +85,12 @@ public class NewCommentServlet extends HttpServlet {
   }
 
   /** Returns a URL that points to the uploaded file, or null if the user didn't upload a file. */
-  private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
+  private BlobKey getBlobKey(HttpServletRequest request, String formInputElementName) {
+    // TODO: Investigate options for image validation (https://stackoverflow.com/q/10779564/873165).
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get(formInputElementName);
 
-    BlobKey blobKey = getBlobKey(blobKeys, blobstoreService);
-    if (blobKey == null) {
-      return null;
-    }
-
-    // TODO: Investigate options for image validation (https://stackoverflow.com/q/10779564/873165).
-
-    // Use ImagesService to get a URL that points to the uploaded file.
-    ImagesService imagesService = ImagesServiceFactory.getImagesService();
-    ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-
-    // To support running in Google Cloud Shell with AppEngine's devserver, we must use the relative
-    // path to the image, rather than the path returned by imagesService which contains a host.
-    try {
-      URL url = new URL(imagesService.getServingUrl(options));
-      return url.getPath();
-    } catch (MalformedURLException e) {
-      return imagesService.getServingUrl(options);
-    }
-  }
-
-  private BlobKey getBlobKey(List<BlobKey> blobKeys, BlobstoreService blobstoreService) {
     // User submitted form without selecting a file, so we can't get a URL. (dev server)
     if (blobKeys == null || blobKeys.isEmpty()) {
       return null;
@@ -126,8 +105,11 @@ public class NewCommentServlet extends HttpServlet {
       blobstoreService.delete(blobKey);
       return null;
     }
+
     return blobKey;
   }
+
+
 
   /** Returns the sentiment score of the given comment, or 0 if the user didn't write a comment. */
   private float getSentimentScore(String comment) throws IOException {
