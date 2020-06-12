@@ -5,8 +5,18 @@
   <p class="comment">{{comment}}{{^comment}}[No Body]{{/comment}}</p>
   <p class="rating"><i class="material-icons">{{stars}}</i></p>
   <div class="comment-image-section">
-    <a href="{{imageUrl}}{{^imageUrl}}/images/profile.png{{/imageUrl}}">
-      <img class="profile-image" src="{{imageUrl}}{{^imageUrl}}/images/profile.png{{/imageUrl}}">
+    <a href="{{#blobKeyString}}
+               /serve-image?blobKey={{blobKeyString}}
+             {{/blobKeyString}}
+             {{^blobKeyString}}
+               /images/profile.png
+             {{/blobKeyString}}">
+      <img class="profile-image" src="{{#blobKeyString}}
+                                        /serve-image?blobKey={{blobKeyString}}
+                                      {{/blobKeyString}}
+                                      {{^blobKeyString}}
+                                        /images/profile.png
+                                      {{/blobKeyString}}">
     </a>
   </div>
   <p class="sentiment-score"><i class="material-icons sentiment-icon">sentiment_{{sentiment}}</i></p>
