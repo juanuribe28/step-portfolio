@@ -15,10 +15,11 @@
 package com.google.sps.servlets;
 
 import com.google.sps.data.Comment;
-
+import com.google.sps.data.Label;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -84,16 +85,33 @@ public class ListCommentsServlet extends HttpServlet {
       double sentimentScore = (double) entity.getProperty("sentimentScore");
       long id = entity.getKey().getId();
 
-      Comment commentObject = new Comment.CommentBuilder(id, userId)
+      Comment.CommentBuilder commentBuilder = new Comment.CommentBuilder(id, userId)
       .title(title)
       .author(author)
       .timestamp(timestamp)
       .rating(rating)
       .comment(comment)
       .blobKeyString(blobKeyString)
-      .sentimentScore(sentimentScore)
-      .build();
-      
+      .sentimentScore(sentimentScore);
+
+      if (blobKeyString != null && blobKeyString != "") {
+        Query.Filter blobKeyFilter = new Query.FilterPredicate("blobKeyString", Query.FilterOperator.EQUAL, blobKeyString);
+        Query imageQuery = new Query("Image").setFilter(blobKeyFilter);
+        PreparedQuery imageResults = datastore.prepare(imageQuery);
+        Entity imageEntity = imageResults.asSingleEntity();
+
+        List<EmbeddedEntity> embeddedImageLabels = (List<EmbeddedEntity>) imageEntity.getProperty("labels");
+        ArrayList<Label> labelsList = new ArrayList<Label>();
+        for (EmbeddedEntity embeddedLabel : embeddedImageLabels) {
+          String description = (String) embeddedLabel.getProperty("description");
+          double score = (double) embeddedLabel.getProperty("score");
+          Label label = new Label(description, score);
+          labelsList.add(label);
+        }
+        commentBuilder = commentBuilder.imageLabels(labelsList);
+      }
+
+      Comment commentObject = commentBuilder.build();
       commentList.add(commentObject);
     }
 
