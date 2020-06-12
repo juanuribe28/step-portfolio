@@ -2,7 +2,6 @@ const nCommentsInput = document.querySelector('#nComments');
 const sortingParamInput = document.querySelector("#sorting-param");
 const sortingDirInput = document.querySelector("#sorting-dir");
 const deleteCommentsButton = document.querySelector('#delete-comments');
-const commentForm = document.querySelector("#comment-form")
 const myCommentsCheckbox = document.querySelector("#my-comments");
 
 const templatePromise = loadTemplate('/content/comment.html');
@@ -22,14 +21,18 @@ myCommentsCheckbox.addEventListener('click', (event) => {
   updateCommentSection();
 });
 
-commentForm.addEventListener('submit', disableSubmitButton);
 
 deleteCommentsButton.addEventListener('click', () => {
   emptyComments();
   deleteAllComments();
 });
 
-function addEventListenerComments(){
+function addEventListenerForm() {
+  const commentForm = document.querySelector("#comment-form");
+  commentForm.addEventListener('submit', disableSubmitButton);
+}
+
+function addEventListenerComments() {
   const comments = document.querySelectorAll('.comment-section');
   comments.forEach((comment) => {
     const deleteX = comment.querySelector('.delete');
