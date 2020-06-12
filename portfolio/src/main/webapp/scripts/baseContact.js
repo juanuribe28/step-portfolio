@@ -14,6 +14,7 @@ $("document").ready(function() {
     let htmlForm = Mustache.render(formTemplate, loginStatus);
     $("header").html(htmlHeader);
     $("div#form").html(htmlForm);
+    addEventListenerForm();
   });
   $("footer").load('content/footer.html').addClass('center');
 })
