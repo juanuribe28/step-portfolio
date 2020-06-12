@@ -20,4 +20,12 @@
     </a>
   </div>
   <p class="sentiment-score"><i class="material-icons sentiment-icon">sentiment_{{sentiment}}</i></p>
+  <ul class="image-labels">
+    {{#imageLabels}}
+      <li style="opacity:{{score}}">{{description}}</li>
+    {{/imageLabels}}
+    {{^imageLabels}}
+      <li>No Labels</li>
+    {{/imageLabels}}
+  </ul>
 </div>
