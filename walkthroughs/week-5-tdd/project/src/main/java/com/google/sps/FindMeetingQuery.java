@@ -38,11 +38,15 @@ public final class FindMeetingQuery {
           meetingTimes.remove(meetingTime);
           if (meetingTime.start() < eventTime.start()) {
             TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
-            meetingTimes.add(before);
+            if (before.duration() >= request.getDuration()) {
+              meetingTimes.add(before);
+            }
           }
           if (eventTime.end() < meetingTime.end()) {
             TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
-            meetingTimes.add(after);
+            if (after.duration() >= request.getDuration()) {
+              meetingTimes.add(after);
+            }
           }
         }
       }
