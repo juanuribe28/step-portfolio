@@ -84,6 +84,8 @@ public class NewCommentServlet extends HttpServlet {
 
       if (imageLabels == null) {
         commentEntity.setProperty("blobKeyString", null);
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        blobstoreService.delete(blobKey);
       } else {
         ArrayList<EmbeddedEntity> labelsEntityList = new ArrayList<EmbeddedEntity>();
         for (EntityAnnotation label : imageLabels) {
