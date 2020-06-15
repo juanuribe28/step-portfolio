@@ -76,28 +76,31 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("sentimentScore", sentimentScore);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(commentEntity);
 
     if (blobKeyString != null) {
       BlobKey blobKey = new BlobKey(blobKeyString);
       byte[] blobBytes = getBlobBytes(blobKey);
       List<EntityAnnotation> imageLabels = getImageLabels(blobBytes);
 
-      ArrayList<EmbeddedEntity> labelsEntityList = new ArrayList<EmbeddedEntity>();
-      for (EntityAnnotation label : imageLabels) {
-        EmbeddedEntity labelEntity = new EmbeddedEntity();
-        labelEntity.setProperty("description", label.getDescription());
-        labelEntity.setProperty("score", label.getScore());
-        labelsEntityList.add(labelEntity);
+      if (imageLabels == null) {
+        commentEntity.setProperty("blobKeyString", null);
+      } else {
+        ArrayList<EmbeddedEntity> labelsEntityList = new ArrayList<EmbeddedEntity>();
+        for (EntityAnnotation label : imageLabels) {
+          EmbeddedEntity labelEntity = new EmbeddedEntity();
+          labelEntity.setProperty("description", label.getDescription());
+          labelEntity.setProperty("score", label.getScore());
+          labelsEntityList.add(labelEntity);
+        }
+
+        Entity imageEntity = new Entity("Image", blobKeyString);
+        imageEntity.setProperty("blobKeyString", blobKeyString);
+        imageEntity.setProperty("labels", labelsEntityList);
+
+        datastore.put(imageEntity);
       }
-
-      Entity imageEntity = new Entity("Image", blobKeyString);
-      imageEntity.setProperty("blobKeyString", blobKeyString);
-      imageEntity.setProperty("labels", labelsEntityList);
-
-      datastore.put(imageEntity);
     }
-
+    datastore.put(commentEntity);
     response.sendRedirect("/contact.html");
   }
 
@@ -112,7 +115,6 @@ public class NewCommentServlet extends HttpServlet {
 
   /** Returns a URL that points to the uploaded file, or null if the user didn't upload a file. */
   private String getBlobKeyString(HttpServletRequest request, String formInputElementName) {
-    // TODO: Investigate options for image validation (https://stackoverflow.com/q/10779564/873165).
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get(formInputElementName);
