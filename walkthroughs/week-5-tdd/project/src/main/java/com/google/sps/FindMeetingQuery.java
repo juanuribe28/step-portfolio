@@ -17,6 +17,9 @@ package com.google.sps;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Arrays;
+import java.util.TreeSet;
+import java.util.SortedSet;
+import java.util.ArrayList;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
@@ -26,7 +29,22 @@ public final class FindMeetingQuery {
     if (events.isEmpty()) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
-
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+    Collection<TimeRange> meetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
+    meetingTimes.add(TimeRange.WHOLE_DAY);
+    for (Event event : events) {
+      TimeRange eventTime = event.getWhen();
+      for (TimeRange meetingTime : meetingTimes) {
+        if (eventTime.overlaps(meetingTime)) {
+          TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
+          TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
+          meetingTimes.remove(meetingTime);
+          meetingTimes.add(before);
+          meetingTimes.add(after);
+        }
+      }
+    }
+    Collection<TimeRange> finalMeetingTimes = new ArrayList<>();
+    finalMeetingTimes.addAll(meetingTimes);
+    return finalMeetingTimes;
   }
 }
