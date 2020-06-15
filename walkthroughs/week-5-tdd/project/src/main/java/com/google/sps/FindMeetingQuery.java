@@ -35,11 +35,15 @@ public final class FindMeetingQuery {
       TimeRange eventTime = event.getWhen();
       for (TimeRange meetingTime : meetingTimes) {
         if (eventTime.overlaps(meetingTime)) {
-          TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
-          TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
           meetingTimes.remove(meetingTime);
-          meetingTimes.add(before);
-          meetingTimes.add(after);
+          if (meetingTime.start() < eventTime.start()) {
+            TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
+            meetingTimes.add(before);
+          }
+          if (eventTime.end() < meetingTime.end()) {
+            TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
+            meetingTimes.add(after);
+          }
         }
       }
     }
