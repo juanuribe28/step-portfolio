@@ -32,6 +32,11 @@ public final class FindMeetingQuery {
     Collection<TimeRange> meetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
     meetingTimes.add(TimeRange.WHOLE_DAY);
     for (Event event : events) {
+      Collection<String> eventAttendees = event.getAttendees();
+      Collection<String> meetingAttendees = request.getAttendees();
+      if (Collections.disjoint(eventAttendees, meetingAttendees)) {
+        continue;
+      }
       TimeRange eventTime = event.getWhen();
       for (TimeRange meetingTime : meetingTimes) {
         if (eventTime.overlaps(meetingTime)) {
