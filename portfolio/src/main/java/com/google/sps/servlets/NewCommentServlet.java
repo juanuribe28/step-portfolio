@@ -82,6 +82,7 @@ public class NewCommentServlet extends HttpServlet {
       byte[] blobBytes = getBlobBytes(blobKey);
       List<EntityAnnotation> imageLabels = getImageLabels(blobBytes);
 
+      // If the image isn't valid then imageLabels is null, and it is erased from blobstore and the comment.
       if (imageLabels == null) {
         commentEntity.setProperty("blobKeyString", null);
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
