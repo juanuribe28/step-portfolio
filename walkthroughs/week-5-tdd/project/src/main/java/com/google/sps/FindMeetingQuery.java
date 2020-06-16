@@ -20,44 +20,81 @@ import java.util.Arrays;
 import java.util.TreeSet;
 import java.util.SortedSet;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public final class FindMeetingQuery {
+
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
+    long meetingDuration = request.getDuration();
+    if (meetingDuration > TimeRange.WHOLE_DAY.duration()) {
       return Collections.emptyList();
     }
     if (events.isEmpty()) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
+    Collection<String> mandatoryMeetingAttendees = request.getAttendees();
+    Collection<String> optionalMeetingAttendees = request.getOptionalAttendees();
     Collection<TimeRange> meetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
     meetingTimes.add(TimeRange.WHOLE_DAY);
+    Collection<Event> optionalEvents = new ArrayList<>();
     for (Event event : events) {
       Collection<String> eventAttendees = event.getAttendees();
-      Collection<String> meetingAttendees = request.getAttendees();
-      if (Collections.disjoint(eventAttendees, meetingAttendees)) {
+      if (Collections.disjoint(eventAttendees, mandatoryMeetingAttendees)) {
+        if (!Collections.disjoint(eventAttendees, optionalMeetingAttendees)) {
+          optionalEvents.add(event);
+        }
         continue;
       }
-      TimeRange eventTime = event.getWhen();
-      for (TimeRange meetingTime : meetingTimes) {
-        if (eventTime.overlaps(meetingTime)) {
-          meetingTimes.remove(meetingTime);
-          if (meetingTime.start() < eventTime.start()) {
-            TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
-            if (before.duration() >= request.getDuration()) {
-              meetingTimes.add(before);
-            }
-          }
-          if (eventTime.end() < meetingTime.end()) {
-            TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
-            if (after.duration() >= request.getDuration()) {
-              meetingTimes.add(after);
-            }
-          }
-        }
+      meetingTimes = splitMeetingTimes(event, meetingTimes, meetingDuration);
+      if (meetingTimes.isEmpty()) {
+        break;
       }
     }
+
+    Collection<TimeRange> optionalMeetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
+    optionalMeetingTimes.addAll(meetingTimes);
+    for (Event optionalEvent : optionalEvents) {
+      optionalMeetingTimes = splitMeetingTimes(optionalEvent, optionalMeetingTimes, meetingDuration);
+      if (optionalMeetingTimes.isEmpty()) {
+        break;
+      }
+    }
+
+    if (mandatoryMeetingAttendees.isEmpty()) {
+      meetingTimes = optionalMeetingTimes;
+    } else {
+      meetingTimes = optionalMeetingTimes.isEmpty() ? meetingTimes : optionalMeetingTimes;
+    }
+
     Collection<TimeRange> finalMeetingTimes = new ArrayList<>();
     finalMeetingTimes.addAll(meetingTimes);
     return finalMeetingTimes;
+  }
+
+  public Collection<TimeRange> splitMeetingTimes(Event event, Collection<TimeRange> meetingTimes, long meetingDuration) {
+    Collection<TimeRange> newMeetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
+    TimeRange eventTime = event.getWhen();
+    for (TimeRange meetingTime : meetingTimes) {
+      newMeetingTimes = updateMeetingTimes(newMeetingTimes, eventTime, meetingTime, meetingDuration);
+    }
+    return newMeetingTimes;
+  }
+
+  public Collection<TimeRange> updateMeetingTimes(Collection<TimeRange> meetingTimes, TimeRange eventTime, TimeRange meetingTime, long meetingDuration) {
+    if (eventTime.overlaps(meetingTime)) {
+      meetingTimes = addMeetingTime(meetingTimes, meetingTime.start(), eventTime.start(), meetingDuration);
+      meetingTimes = addMeetingTime(meetingTimes, eventTime.end(), meetingTime.end(), meetingDuration);
+    } else {
+      meetingTimes.add(meetingTime);
+    }
+    return meetingTimes;
+  }
+
+  public Collection<TimeRange> addMeetingTime(Collection<TimeRange> meetingTimes, int startTime, int endTime, long meetingDuration) {
+    TimeRange timeRange = TimeRange.fromStartEnd(startTime, endTime, false);
+    if (timeRange.duration() >= meetingDuration) {
+      meetingTimes.add(timeRange);
+    }
+    return meetingTimes;
   }
 }
