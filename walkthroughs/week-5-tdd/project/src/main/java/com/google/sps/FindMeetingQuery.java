@@ -73,6 +73,7 @@ public final class FindMeetingQuery {
     Collection<TimeRange> newMeetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
     TimeRange eventTime = event.getWhen();
     for (TimeRange meetingTime : meetingTimes) {
+      // TODO: Reduce if nesting complexity.
       if (eventTime.overlaps(meetingTime)) {
         if (meetingTime.start() < eventTime.start()) {
           TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
