@@ -23,41 +23,71 @@ import java.util.ArrayList;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
+    long meetingDuration = request.getDuration();
+    if (meetingDuration > TimeRange.WHOLE_DAY.duration()) {
       return Collections.emptyList();
     }
     if (events.isEmpty()) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
+    Collection<String> mandatoryMeetingAttendees = request.getAttendees();
+    Collection<String> optionalMeetingAttendees = request.getOptionalAttendees();
     Collection<TimeRange> meetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
     meetingTimes.add(TimeRange.WHOLE_DAY);
+    Collection<Event> optionalEvents = new ArrayList<>();
     for (Event event : events) {
       Collection<String> eventAttendees = event.getAttendees();
-      Collection<String> meetingAttendees = request.getAttendees();
-      if (Collections.disjoint(eventAttendees, meetingAttendees)) {
+      if (Collections.disjoint(eventAttendees, mandatoryMeetingAttendees)) {
+        if (!Collections.disjoint(eventAttendees, optionalMeetingAttendees)) {
+          optionalEvents.add(event);
+        }
         continue;
       }
-      TimeRange eventTime = event.getWhen();
-      for (TimeRange meetingTime : meetingTimes) {
-        if (eventTime.overlaps(meetingTime)) {
-          meetingTimes.remove(meetingTime);
-          if (meetingTime.start() < eventTime.start()) {
-            TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
-            if (before.duration() >= request.getDuration()) {
-              meetingTimes.add(before);
-            }
+      meetingTimes = splitMeetingTimes(event, meetingTimes, meetingDuration);
+      if (meetingTimes.isEmpty()) {
+        break;
+      }
+    }
+
+    Collection<TimeRange> optionalMeetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
+    optionalMeetingTimes.addAll(meetingTimes);
+    for (Event optionalEvent : optionalEvents) {
+      optionalMeetingTimes = splitMeetingTimes(optionalEvent, optionalMeetingTimes, meetingDuration);
+      if (optionalMeetingTimes.isEmpty()) {
+        break;
+      }
+    }
+
+    if (mandatoryMeetingAttendees.isEmpty()) {
+      meetingTimes = optionalMeetingTimes;
+    } else {
+      meetingTimes = optionalMeetingTimes.isEmpty() ? meetingTimes : optionalMeetingTimes;
+    }
+
+    Collection<TimeRange> finalMeetingTimes = new ArrayList<>();
+    finalMeetingTimes.addAll(meetingTimes);
+    return finalMeetingTimes;
+  }
+
+  public Collection<TimeRange> splitMeetingTimes(Event event, Collection<TimeRange> meetingTimes, long meetingDuration) {
+    TimeRange eventTime = event.getWhen();
+    for (TimeRange meetingTime : meetingTimes) {
+      if (eventTime.overlaps(meetingTime)) {
+        meetingTimes.remove(meetingTime);
+        if (meetingTime.start() < eventTime.start()) {
+          TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
+          if (before.duration() >= meetingDuration) {
+            meetingTimes.add(before);
           }
-          if (eventTime.end() < meetingTime.end()) {
-            TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
-            if (after.duration() >= request.getDuration()) {
-              meetingTimes.add(after);
-            }
+        }
+        if (eventTime.end() < meetingTime.end()) {
+          TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
+          if (after.duration() >= meetingDuration) {
+            meetingTimes.add(after);
           }
         }
       }
     }
-    Collection<TimeRange> finalMeetingTimes = new ArrayList<>();
-    finalMeetingTimes.addAll(meetingTimes);
-    return finalMeetingTimes;
+    return meetingTimes;
   }
 }
