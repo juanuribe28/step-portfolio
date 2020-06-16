@@ -75,22 +75,22 @@ public final class FindMeetingQuery {
     for (TimeRange meetingTime : meetingTimes) {
       // TODO: Reduce if nesting complexity.
       if (eventTime.overlaps(meetingTime)) {
-        if (meetingTime.start() < eventTime.start()) {
-          TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
-          if (before.duration() >= meetingDuration) {
-            newMeetingTimes.add(before);
-          }
-        }
-        if (eventTime.end() < meetingTime.end()) {
-          TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
-          if (after.duration() >= meetingDuration) {
-            newMeetingTimes.add(after);
-          }
-        }
+        newMeetingTimes = updateMeetingTimes(meetingTime.start(), eventTime.start(), newMeetingTimes, meetingDuration);
+        newMeetingTimes = updateMeetingTimes(eventTime.end(), meetingTime.end(), newMeetingTimes, meetingDuration);
       } else {
         newMeetingTimes.add(meetingTime);
       }
     }
     return newMeetingTimes;
+  }
+
+  public Collection<TimeRange> updateMeetingTimes(int startTime, int endTime, Collection<TimeRange> meetingTimes, long meetingDuration) {
+    if (startTime < endTime) {
+      TimeRange timeRange = TimeRange.fromStartEnd(startTime, endTime, false);
+      if (timeRange.duration() >= meetingDuration) {
+        meetingTimes.add(timeRange);
+      }
+    }
+    return meetingTimes;
   }
 }
