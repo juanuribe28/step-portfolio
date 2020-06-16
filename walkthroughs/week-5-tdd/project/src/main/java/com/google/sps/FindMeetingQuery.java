@@ -91,16 +91,10 @@ public final class FindMeetingQuery {
   }
 
   public Collection<TimeRange> addMeetingTime(Collection<TimeRange> meetingTimes, int startTime, int endTime, long meetingDuration) {
-    Optional optionalTime = newMeetingTime(startTime, endTime, meetingDuration);
-    optionalTime.ifPresent(timeRange -> meetingTimes.add((TimeRange) timeRange));
-    return meetingTimes;
-  }
-
-  public Optional<TimeRange> newMeetingTime(int startTime, int endTime, long meetingDuration) {
     TimeRange timeRange = TimeRange.fromStartEnd(startTime, endTime, false);
     if (timeRange.duration() >= meetingDuration) {
-      return Optional.of(timeRange);
+      meetingTimes.add(timeRange);
     }
-    return Optional.empty();
+    return meetingTimes;
   }
 }
