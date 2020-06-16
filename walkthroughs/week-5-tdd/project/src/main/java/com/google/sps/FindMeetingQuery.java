@@ -70,24 +70,26 @@ public final class FindMeetingQuery {
   }
 
   public Collection<TimeRange> splitMeetingTimes(Event event, Collection<TimeRange> meetingTimes, long meetingDuration) {
+    Collection<TimeRange> newMeetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
     TimeRange eventTime = event.getWhen();
     for (TimeRange meetingTime : meetingTimes) {
       if (eventTime.overlaps(meetingTime)) {
-        meetingTimes.remove(meetingTime);
         if (meetingTime.start() < eventTime.start()) {
           TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
           if (before.duration() >= meetingDuration) {
-            meetingTimes.add(before);
+            newMeetingTimes.add(before);
           }
         }
         if (eventTime.end() < meetingTime.end()) {
           TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
           if (after.duration() >= meetingDuration) {
-            meetingTimes.add(after);
+            newMeetingTimes.add(after);
           }
         }
+      } else {
+        newMeetingTimes.add(meetingTime);
       }
     }
-    return meetingTimes;
+    return newMeetingTimes;
   }
 }
