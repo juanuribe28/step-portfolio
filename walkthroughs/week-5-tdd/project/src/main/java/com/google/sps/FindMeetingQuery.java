@@ -15,9 +15,49 @@
 package com.google.sps;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Arrays;
+import java.util.TreeSet;
+import java.util.SortedSet;
+import java.util.ArrayList;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+    if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
+      return Collections.emptyList();
+    }
+    if (events.isEmpty()) {
+      return Arrays.asList(TimeRange.WHOLE_DAY);
+    }
+    Collection<TimeRange> meetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
+    meetingTimes.add(TimeRange.WHOLE_DAY);
+    for (Event event : events) {
+      Collection<String> eventAttendees = event.getAttendees();
+      Collection<String> meetingAttendees = request.getAttendees();
+      if (Collections.disjoint(eventAttendees, meetingAttendees)) {
+        continue;
+      }
+      TimeRange eventTime = event.getWhen();
+      for (TimeRange meetingTime : meetingTimes) {
+        if (eventTime.overlaps(meetingTime)) {
+          meetingTimes.remove(meetingTime);
+          if (meetingTime.start() < eventTime.start()) {
+            TimeRange before = TimeRange.fromStartEnd(meetingTime.start(), eventTime.start(), false);
+            if (before.duration() >= request.getDuration()) {
+              meetingTimes.add(before);
+            }
+          }
+          if (eventTime.end() < meetingTime.end()) {
+            TimeRange after = TimeRange.fromStartEnd(eventTime.end(), meetingTime.end(), false);
+            if (after.duration() >= request.getDuration()) {
+              meetingTimes.add(after);
+            }
+          }
+        }
+      }
+    }
+    Collection<TimeRange> finalMeetingTimes = new ArrayList<>();
+    finalMeetingTimes.addAll(meetingTimes);
+    return finalMeetingTimes;
   }
 }
