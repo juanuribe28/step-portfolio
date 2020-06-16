@@ -20,8 +20,10 @@ import java.util.Arrays;
 import java.util.TreeSet;
 import java.util.SortedSet;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public final class FindMeetingQuery {
+
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     long meetingDuration = request.getDuration();
     if (meetingDuration > TimeRange.WHOLE_DAY.duration()) {
@@ -73,24 +75,32 @@ public final class FindMeetingQuery {
     Collection<TimeRange> newMeetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
     TimeRange eventTime = event.getWhen();
     for (TimeRange meetingTime : meetingTimes) {
-      // TODO: Reduce if nesting complexity.
-      if (eventTime.overlaps(meetingTime)) {
-        newMeetingTimes = updateMeetingTimes(meetingTime.start(), eventTime.start(), newMeetingTimes, meetingDuration);
-        newMeetingTimes = updateMeetingTimes(eventTime.end(), meetingTime.end(), newMeetingTimes, meetingDuration);
-      } else {
-        newMeetingTimes.add(meetingTime);
-      }
+      newMeetingTimes = updateMeetingTimes(newMeetingTimes, eventTime, meetingTime, meetingDuration);
     }
     return newMeetingTimes;
   }
 
-  public Collection<TimeRange> updateMeetingTimes(int startTime, int endTime, Collection<TimeRange> meetingTimes, long meetingDuration) {
-    if (startTime < endTime) {
-      TimeRange timeRange = TimeRange.fromStartEnd(startTime, endTime, false);
-      if (timeRange.duration() >= meetingDuration) {
-        meetingTimes.add(timeRange);
-      }
+  public Collection<TimeRange> updateMeetingTimes(Collection<TimeRange> meetingTimes, TimeRange eventTime, TimeRange meetingTime, long meetingDuration) {
+    if (eventTime.overlaps(meetingTime)) {
+      meetingTimes = addMeetingTime(meetingTimes, meetingTime.start(), eventTime.start(), meetingDuration);
+      meetingTimes = addMeetingTime(meetingTimes, eventTime.end(), meetingTime.end(), meetingDuration);
+    } else {
+      meetingTimes.add(meetingTime);
     }
     return meetingTimes;
+  }
+
+  public Collection<TimeRange> addMeetingTime(Collection<TimeRange> meetingTimes, int startTime, int endTime, long meetingDuration) {
+    Optional optionalTime = newMeetingTime(startTime, endTime, meetingDuration);
+    optionalTime.ifPresent(timeRange -> meetingTimes.add((TimeRange) timeRange));
+    return meetingTimes;
+  }
+
+  public Optional<TimeRange> newMeetingTime(int startTime, int endTime, long meetingDuration) {
+    TimeRange timeRange = TimeRange.fromStartEnd(startTime, endTime, false);
+    if (timeRange.duration() >= meetingDuration) {
+      return Optional.of(timeRange);
+    }
+    return Optional.empty();
   }
 }
