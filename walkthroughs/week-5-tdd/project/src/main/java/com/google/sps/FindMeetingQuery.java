@@ -17,6 +17,7 @@ package com.google.sps;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.TreeSet;
 import java.util.SortedSet;
 import java.util.ArrayList;
@@ -53,7 +54,24 @@ public final class FindMeetingQuery {
 
     Collection<TimeRange> optionalMeetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
     optionalMeetingTimes.addAll(meetingTimes);
+    int mostOptionalAttendees = 0;
+    int numberOptionalMeetingAttendees = optionalMeetingAttendees.toArray().length;
+    Collection<TimeRange> mostOptionalMeetingTimes = new TreeSet<>(TimeRange.ORDER_BY_START);
     for (Event optionalEvent : optionalEvents) {
+      if (optionalEvent.getWhen().duration() > request.getDuration()) {
+        Collection<String> optionalEventAttendees = optionalEvent.getAttendees();
+        Collection<String> freeMeetingAttendees = new HashSet<>();
+        freeMeetingAttendees.addAll(optionalMeetingAttendees);
+        freeMeetingAttendees.removeAll(optionalEventAttendees);
+        int numberFreeOptionalAttendees = freeMeetingAttendees.toArray().length;
+        if (numberFreeOptionalAttendees > mostOptionalAttendees) {
+          mostOptionalMeetingTimes.clear();
+          mostOptionalMeetingTimes.add(optionalEvent.getWhen());
+          mostOptionalAttendees = numberFreeOptionalAttendees;
+        } else if (numberFreeOptionalAttendees == mostOptionalAttendees) {
+          mostOptionalMeetingTimes.add(optionalEvent.getWhen());
+        }
+      }
       optionalMeetingTimes = splitMeetingTimes(optionalEvent, optionalMeetingTimes, meetingDuration);
       if (optionalMeetingTimes.isEmpty()) {
         break;
@@ -63,6 +81,7 @@ public final class FindMeetingQuery {
     if (mandatoryMeetingAttendees.isEmpty()) {
       meetingTimes = optionalMeetingTimes;
     } else {
+      meetingTimes = mostOptionalMeetingTimes.isEmpty() ? meetingTimes : mostOptionalMeetingTimes;
       meetingTimes = optionalMeetingTimes.isEmpty() ? meetingTimes : optionalMeetingTimes;
     }
 
