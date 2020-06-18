@@ -437,11 +437,11 @@ public final class FindMeetingQueryTest {
             Arrays.asList(PERSON_A)),
         new Event("Event 2", TimeRange.fromStartDuration(TIME_0900AM, DURATION_30_MINUTES),
             Arrays.asList(PERSON_B)), 
-        new Event("Event 3", TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES),
+        new Event("Event 3", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
             Arrays.asList(PERSON_C, PERSON_D)),
-        new Event("Event 4", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
+        new Event("Event 4", TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES),
             Arrays.asList(PERSON_C, PERSON_D)),
-        new Event("Event 5", TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, false),
+        new Event("Event 5", TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true),
             Arrays.asList(PERSON_D)));
 
     MeetingRequest request =
@@ -451,7 +451,7 @@ public final class FindMeetingQueryTest {
 
     Collection<TimeRange> actual = query.query(events, request);
     Collection<TimeRange> expected =
-        Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false));
+        Arrays.asList(TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true));
 
     Assert.assertEquals(expected, actual);
   }
@@ -476,7 +476,7 @@ public final class FindMeetingQueryTest {
             Arrays.asList(PERSON_C, PERSON_D)),
         new Event("Event 4", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
             Arrays.asList(PERSON_C)),
-        new Event("Event 5", TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, false),
+        new Event("Event 5", TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true),
             Arrays.asList(PERSON_D)));
 
     MeetingRequest request =
@@ -493,7 +493,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void considerMostOptionalWithoutMandatoryAttendees() {
+  public void considerMostOptionalsWithoutMandatoryAttendees() {
     // Have each person have different events, including the optional attendee. 
     // We should see two options because they allow the most number of
     // optional attendees.
@@ -508,7 +508,7 @@ public final class FindMeetingQueryTest {
             Arrays.asList(PERSON_A, PERSON_B)),
         new Event("Event 2", TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES),
             Arrays.asList(PERSON_C)), 
-        new Event("Event 3", TimeRange.fromStartEnd(TIME_0830AM, TimeRange.END_OF_DAY, false),
+        new Event("Event 3", TimeRange.fromStartEnd(TIME_0830AM, TimeRange.END_OF_DAY, true),
             Arrays.asList(PERSON_D)));
 
     MeetingRequest request =
@@ -520,7 +520,7 @@ public final class FindMeetingQueryTest {
 
     Collection<TimeRange> actual = query.query(events, request);
     Collection<TimeRange> expected =
-        Arrays.asList(TimeRange.fromStartEnd(TIME_0900AM, TimeRange.END_OF_DAY, false));
+        Arrays.asList(TimeRange.fromStartEnd(TIME_0900AM, TimeRange.END_OF_DAY, true));
 
     Assert.assertEquals(expected, actual);
   }
@@ -552,8 +552,7 @@ public final class FindMeetingQueryTest {
     request.addOptionalAttendee(PERSON_D);
 
     Collection<TimeRange> actual = query.query(events, request);
-    Collection<TimeRange> expected =
-        Arrays.asList(TimeRange.fromStartEnd(TIME_0900AM, TimeRange.END_OF_DAY, false));
+    Collection<TimeRange> expected = Arrays.asList();
 
     Assert.assertEquals(expected, actual);
   }
